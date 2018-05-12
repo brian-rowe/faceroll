@@ -3,8 +3,8 @@ import { ActorBase } from 'app/ActorBase';
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorOptions } from 'app/ActorOptions';
 import { ActorType } from 'app/ActorType';
-import { Key } from 'app/Key';
 import { KeyCode } from 'app/KeyCode';
+import { KeyHandler } from 'app/KeyHandler';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class Player extends ActorBase {
@@ -32,7 +32,7 @@ export class Player extends ActorBase {
     }
 
     private bindSprint() {
-        const shift = new Key(KeyCode.SHIFT, () => {
+        const shift = new KeyHandler(KeyCode.SHIFT, () => {
             this._velocityMultiplier = 3;
         }, () => {
             this._velocityMultiplier = 1;
@@ -40,7 +40,7 @@ export class Player extends ActorBase {
     }
 
     private bindUp() {
-        const up = new Key(KeyCode.KEY_W, () => {
+        const up = new KeyHandler(KeyCode.KEY_W, () => {
             this._vy = -1;
         }, () => {
             this._vy = 0;
@@ -48,7 +48,7 @@ export class Player extends ActorBase {
     }
 
     private bindDown() {
-        const down = new Key(KeyCode.KEY_S, () => {
+        const down = new KeyHandler(KeyCode.KEY_S, () => {
             this._vy = 1;
         }, () => {
             this._vy = 0;
@@ -56,7 +56,7 @@ export class Player extends ActorBase {
     }
 
     private bindLeft() {
-        const left = new Key(KeyCode.KEY_A, () => {
+        const left = new KeyHandler(KeyCode.KEY_A, () => {
             this._vx = -1;
         }, () => {
             this._vx = 0;
@@ -64,7 +64,7 @@ export class Player extends ActorBase {
     }
 
     private bindRight() {
-        const right = new Key(KeyCode.KEY_D, () => {
+        const right = new KeyHandler(KeyCode.KEY_D, () => {
             this._vx = 1;
         }, () => {
             this._vx = 0;
@@ -72,7 +72,7 @@ export class Player extends ActorBase {
     }
 
     private bindShoot() {
-        const space = new Key(KeyCode.SPACE, () => {
+        const space = new KeyHandler(KeyCode.SPACE, () => {
             this.shoot();
         }, () => {
             // nada

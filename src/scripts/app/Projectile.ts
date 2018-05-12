@@ -11,4 +11,8 @@ export class Projectile extends ActorBase {
         super(app, options);
         this._vx = 20;
     }
+
+    public handleCollision() {
+        // keep flying
+    }
 }

@@ -1,3 +1,4 @@
+import { ActorType } from 'app/ActorType';
 import { Disposable } from 'app/Disposable';
 
 export interface Actor extends Disposable {
@@ -6,6 +7,7 @@ export interface Actor extends Disposable {
     vx: number;
     vy: number;
     detectCollision(other: Actor): boolean;
+    handleCollision(actorType: ActorType): void;
     getCenter(): PIXI.Point;
     moveTo(x: number, y: number): void;
 }

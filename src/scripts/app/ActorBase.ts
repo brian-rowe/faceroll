@@ -1,6 +1,7 @@
 import { Actor } from 'app/Actor';
 import { ActorManager } from 'app/ActorManager';
 import { ActorOptions } from 'app/ActorOptions';
+import { ActorType } from 'app/ActorType';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class ActorBase implements Actor {
@@ -58,6 +59,11 @@ export class ActorBase implements Actor {
         return new PIXI.Point(sprite.x + sprite.width / 2, sprite.y + sprite.height / 2);
     }
 
+    /** Override this */
+    public handleCollision(actorType: ActorType) {
+        this.dispose();
+    }
+
     public moveTo(x: number, y: number) {
         this._sprite.position.set(x, y);
     }
@@ -105,7 +111,7 @@ export class ActorBase implements Actor {
 
         for (const actor of actors) {
             if (actor.detectCollision(this)) {
-                actor.dispose();
+                actor.handleCollision(ActorType.Enemy);
             }
         }
     }

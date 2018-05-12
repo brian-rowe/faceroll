@@ -1,4 +1,4 @@
-export class Key {
+export class KeyHandler {
     private _code: number;
     private _isDown: boolean;
     private _isUp: boolean;
