@@ -1,33 +1,20 @@
 import { Actor } from 'app/Actor';
+import { ActorBase } from 'app/ActorBase';
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorOptions } from 'app/ActorOptions';
 import { ActorType } from 'app/ActorType';
 import { Key } from 'app/Key';
 import { KeyCode } from 'app/KeyCode';
 
-export class Player implements Actor {
+export class Player extends ActorBase {
     private _actorFactory: ActorFactory = new ActorFactory();
-    private _container: PIXI.Container;
-    private _sprite: PIXI.Sprite;
-    private _vx: number = 0;
-    private _vy: number = 0;
     private _velocityMultiplier: number = 1;
 
     constructor(
-       private options: ActorOptions,
+       protected options: ActorOptions,
     ) {
-        this._sprite = new PIXI.Sprite(options.texture);
-        this._sprite.anchor.set(0.5, 0.5);
+        super(options);
         this.bindMovement();
-    }
-
-    public setContainer(container: PIXI.Container) {
-        this._container = container;
-        this._container.addChild(this._sprite);
-    }
-
-    public moveTo(x: number, y: number) {
-        this._sprite.position.set(x, y);
     }
 
     private bindMovement() {
@@ -77,34 +64,20 @@ export class Player implements Actor {
         bullet.setContainer(this._container);
     }
 
-    /** x */
-
-    get x() {
-        return this._sprite.position.x;
-    }
-
     private setX(value: number) {
         this._sprite.position.set(value, this.y);
-    }
-
-    /** y */
-
-    get y() {
-        return this._sprite.position.y;
     }
 
     private setY(value: number) {
         this._sprite.position.set(this.x, value);
     }
 
-    /** vx */
-
+    /** @override */
     get vx() {
         return this._vx * this._velocityMultiplier;
     }
 
-    /** vy */
-
+    /** @override */
     get vy() {
         return this._vy * this._velocityMultiplier;
     }
