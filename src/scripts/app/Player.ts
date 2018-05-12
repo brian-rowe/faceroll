@@ -17,4 +17,12 @@ export class Player implements Actor {
     get sprite() {
         return this._sprite;
     }
+
+    get x() {
+        return this._sprite.position.x;
+    }
+
+    get y() {
+        return this._sprite.position.y;
+    }
 }

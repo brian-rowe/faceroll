@@ -118,6 +118,10 @@ export class SampleApp {
 
         this.app.stage.addChild(player.sprite);
 
-        player.moveTo(this.app.initialWidth / 2, this.app.initialHeight / 2);
+        this.app.ticker.add((delta => {
+            const mousePosition: PIXI.Point = this.app.renderer.plugins.interaction.mouse.global;
+            console.log(mousePosition);
+            player.moveTo(mousePosition.x, mousePosition.y);
+        }));
     }
 }
