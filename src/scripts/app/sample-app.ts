@@ -90,7 +90,7 @@ export class SampleApp {
             texture: PIXI.loader.resources.explorer.texture,
         });
 
-        player.moveTo(300, 300);
+        player.moveTo(this.app.screen.width / 2, this.app.screen.height / 2);
     }
 
     private createEnemies() {

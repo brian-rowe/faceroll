@@ -10,6 +10,7 @@ export class ActorBase implements Actor {
     protected _vx: number = 0;
     protected _vy: number = 0;
 
+    private _parent: Actor;
     /** Need to share one instance between the add/remove functions */
     private movementTracker: () => void;
 
@@ -25,6 +26,7 @@ export class ActorBase implements Actor {
         protected app: Wrapper,
         protected options: ActorOptions,
     ) {
+        this.setParent();
         this.movementTracker = () => this.trackMovement();
 
         this.draw();
@@ -35,6 +37,11 @@ export class ActorBase implements Actor {
     }
 
     public detectCollision(target: Actor) {
+        /* No collisions between parents and children */
+        if (this === target.parent || this.parent === target) {
+            return false;
+        }
+
         /** Find the center point of the target sprite */
         const targetCenter = target.getCenter();
 
@@ -60,7 +67,6 @@ export class ActorBase implements Actor {
         return new PIXI.Point(sprite.x + sprite.width / 2, sprite.y + sprite.height / 2);
     }
 
-    /** Override this. */
     public handleCollision(other: Actor) {
         // Default = nothing happens
     }
@@ -126,6 +132,12 @@ export class ActorBase implements Actor {
         }
     }
 
+    private setParent() {
+        if (this.options.parent) {
+            this._parent = this.options.parent;
+        }
+    }
+
     private setSpeed() {
         if (this.options.speed) {
             const rotation = this.options.rotation || 0;
@@ -145,6 +157,10 @@ export class ActorBase implements Actor {
 
     get actorType() {
         return ActorType.Null;
+    }
+
+    get parent() {
+        return this._parent || null;
     }
 
     get x() {

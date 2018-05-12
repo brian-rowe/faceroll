@@ -93,6 +93,7 @@ export class Player extends ActorBase {
 
     private shoot() {
         const bullet = this._actorFactory.createActor(ActorType.Projectile, {
+            parent: this,
             rotation: this._sprite.rotation,
             speed: 20,
             texture: PIXI.loader.resources.bubble.texture,
