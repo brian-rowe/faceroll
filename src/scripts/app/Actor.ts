@@ -1,4 +1,6 @@
-export interface Actor {
+import { Disposable } from 'app/Disposable';
+
+export interface Actor extends Disposable {
     x: number;
     y: number;
     vx: number;

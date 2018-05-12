@@ -14,27 +14,18 @@ export class ActorFactory {
     }
 
     public createActor(actorType: ActorType, options: ActorOptions): Actor {
-        let result: Actor;
-
         switch (actorType) {
             case ActorType.Enemy:
-                result = new Enemy(this.app, options);
-                break;
+                return new Enemy(this.app, options);
 
             case ActorType.Player:
-                result = new Player(this.app, options);
-                break;
+                return new Player(this.app, options);
 
             case ActorType.Projectile:
-                result = new Projectile(this.app, options);
-                break;
+                return new Projectile(this.app, options);
 
             default:
                 throw new Error('Invalid actor type!');
         }
-
-        ActorManager.addActor(result);
-
-        return result;
     }
 }

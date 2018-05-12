@@ -9,6 +9,9 @@ export class ActorBase implements Actor {
     protected _vx: number = 0;
     protected _vy: number = 0;
 
+    /** Need to share one instance between the add/remove functions */
+    private movementTracker: () => void;
+
     private textStyle = new PIXI.TextStyle({
         fontFamily: 'Verdana',
         fontSize: 18,
@@ -21,9 +24,12 @@ export class ActorBase implements Actor {
         protected app: Wrapper,
         protected options: ActorOptions,
     ) {
+        this.movementTracker = () => this.trackMovement();
+
         this.draw();
         this.addToContainer();
-        this.trackMovement();
+        this.addTicker();
+        ActorManager.addActor(this);
     }
 
     public detectCollision(target: Actor) {
@@ -39,6 +45,14 @@ export class ActorBase implements Actor {
         return targetCenterXIsInside;
     }
 
+    public dispose() {
+        this.app.stage.removeChild(this._sprite);
+
+        this.removeTicker();
+
+        ActorManager.removeActor(this);
+    }
+
     public getCenter(): PIXI.Point {
         const sprite = this._sprite;
         return new PIXI.Point(sprite.x + sprite.width / 2, sprite.y + sprite.height / 2);
@@ -46,6 +60,10 @@ export class ActorBase implements Actor {
 
     public moveTo(x: number, y: number) {
         this._sprite.position.set(x, y);
+    }
+
+    private addTicker() {
+        this.app.ticker.add(this.movementTracker);
     }
 
     private draw() {
@@ -57,14 +75,13 @@ export class ActorBase implements Actor {
         }
     }
 
-    private trackMovement() {
-        this.app.ticker.add(() => {
-            const newX = this.x + this.vx;
-            const newY = this.y + this.vy;
+    private removeTicker() {
+        this.app.ticker.remove(this.movementTracker);
+    }
 
-            this.moveTo(newX, newY);
-            this.detectCollisions();
-        });
+    private trackMovement() {
+        this.updateLocation();
+        this.detectCollisions();
     }
 
     private addToContainer() {
@@ -88,14 +105,16 @@ export class ActorBase implements Actor {
 
         for (const actor of actors) {
             if (actor.detectCollision(this)) {
-                const richText = new PIXI.Text('TOASTY', this.textStyle);
-                richText.anchor.set(0.5, 0.5);
-                richText.x = this.x;
-                richText.y = this.y + 100;
-
-                this.app.stage.addChild(richText);
+                actor.dispose();
             }
         }
+    }
+
+    private updateLocation() {
+        const newX = this.x + this.vx;
+        const newY = this.y + this.vy;
+
+        this.moveTo(newX, newY);
     }
 
     get x() {
