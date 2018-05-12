@@ -43,7 +43,6 @@ export class SampleApp {
             backgroundColor: 0x000000,
             view: canvas,
             showFPS: true,
-            showMediaInfo: true,
         };
 
         this.app = new Wrapper(appOptions);
@@ -51,7 +50,8 @@ export class SampleApp {
         this.app.on(WrapperEvent.RESIZE_START, this.onResizeStart.bind(this));
         this.app.on(WrapperEvent.RESIZE_END, this.onResizeEnd.bind(this));
 
-        this.addFullscreenText(this.app.initialWidth / 2, this.app.initialHeight / 2 - 50);
+        /* Magic numbers */
+        this.addFullscreenText(64, this.app.initialHeight - 24);
 
         PIXI.loader
             .add('explorer', 'assets/gfx/explorer.png')
@@ -98,6 +98,6 @@ export class SampleApp {
             texture: PIXI.loader.resources.bunny.texture,
         });
 
-        enemy.moveTo(this.app.screen.right - 300, 300);
+        enemy.moveTo(500, 300);
     }
 }

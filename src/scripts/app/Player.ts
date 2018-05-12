@@ -85,7 +85,7 @@ export class Player extends ActorBase {
             scale: new PIXI.Point(0.3, 0.3),
         });
 
-        bullet.moveTo(this.x + (this._sprite.width * 3), this.y);
+        bullet.moveTo(this.x + this._sprite.width, this.y);
     }
 
     private setX(value: number) {
