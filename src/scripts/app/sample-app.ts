@@ -25,6 +25,8 @@ export class SampleApp {
         wordWrapWidth: 440,
     });
 
+    private _actorFactory = new ActorFactory();
+
     constructor() {
 
         const canvas = Dom.getElementOrCreateNew<HTMLCanvasElement>('app-canvas', 'canvas', document.getElementById('app-root'));
@@ -78,8 +80,12 @@ export class SampleApp {
     }
 
     private onAssetsLoaded(): void {
-        const actorFactory = new ActorFactory();
-        const player = actorFactory.createActor(ActorType.Player, {
+        this.createPlayer();
+        this.createEnemies();
+    }
+
+    private createPlayer() {
+        const player = this._actorFactory.createActor(ActorType.Player, {
             texture: PIXI.loader.resources.explorer.texture,
         });
 
@@ -93,5 +99,15 @@ export class SampleApp {
 
             player.moveTo(newX, newY);
         }));
+    }
+
+    private createEnemies() {
+        const enemy = this._actorFactory.createActor(ActorType.Enemy, {
+            texture: PIXI.loader.resources.bunny.texture,
+        });
+
+        enemy.moveTo(this.app.screen.right - 300, 300);
+
+        this.app.stage.addChild(enemy.sprite);
     }
 }

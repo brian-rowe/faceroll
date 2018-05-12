@@ -17,6 +17,10 @@ export class Player implements Actor {
         this.bindMovement();
     }
 
+    public addTo(container: PIXI.Container) {
+        container.addChild(this._sprite);
+    }
+
     public moveTo(x: number, y: number) {
         this._sprite.position.set(x, y);
     }
