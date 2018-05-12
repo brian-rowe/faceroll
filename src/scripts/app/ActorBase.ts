@@ -30,6 +30,7 @@ export class ActorBase implements Actor {
         this.draw();
         this.addToContainer();
         this.addTicker();
+        this.setSpeed();
         ActorManager.addActor(this);
     }
 
@@ -124,6 +125,16 @@ export class ActorBase implements Actor {
             }
         }
     }
+
+    private setSpeed() {
+        if (this.options.speed) {
+            const rotation = this.options.rotation || 0;
+            const speed = this.options.speed || 0;
+
+            this._vx = Math.cos(rotation) * speed;
+            this._vy = Math.sin(rotation) * speed;
+        }
+    };
 
     private updateLocation() {
         const newX = this.x + this.vx;

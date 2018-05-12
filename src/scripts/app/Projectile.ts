@@ -10,7 +10,6 @@ export class Projectile extends ActorBase {
         protected options: ActorOptions,
     ) {
         super(app, options);
-        this._vx = 20;
     }
 
     get actorType() {
