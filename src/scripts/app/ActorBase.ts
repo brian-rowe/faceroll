@@ -1,4 +1,5 @@
 import { Actor } from 'app/Actor';
+import { ActorManager } from 'app/ActorManager';
 import { ActorOptions } from 'app/ActorOptions';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
@@ -23,6 +24,24 @@ export class ActorBase implements Actor {
         this.draw();
         this.addToContainer();
         this.trackMovement();
+    }
+
+    public detectCollision(target: Actor) {
+        /** Find the center point of the target sprite */
+        const targetCenter = target.getCenter();
+
+        /**
+         * If any part of the host sprite (projectile/attack) hits the center of the target sprite (player/enemy)
+         * then that thing has been hit.
+         */
+        const targetCenterXIsInside = this.isPointInsideSprite(targetCenter, this._sprite);
+
+        return targetCenterXIsInside;
+    }
+
+    public getCenter(): PIXI.Point {
+        const sprite = this._sprite;
+        return new PIXI.Point(sprite.x + sprite.width / 2, sprite.y + sprite.height / 2);
     }
 
     public moveTo(x: number, y: number) {
@@ -52,23 +71,6 @@ export class ActorBase implements Actor {
         this.app.stage.addChild(this._sprite);
     }
 
-    private detectCollision(host: PIXI.Sprite, target: PIXI.Sprite) {
-        /** Find the center point of the target sprite */
-        const targetCenter = this.getCenter(target);
-
-        /**
-         * If any part of the host sprite (projectile/attack) hits the center of the target sprite (player/enemy)
-         * then that thing has been hit.
-         */
-        const targetCenterXIsInside = this.isPointInsideSprite(targetCenter, host);
-
-        return targetCenterXIsInside;
-    }
-
-    private getCenter(sprite: PIXI.Sprite): PIXI.Point {
-       return new PIXI.Point(sprite.x + sprite.width / 2, sprite.y + sprite.height / 2);
-    }
-
     private isPointInsideSprite(point: PIXI.Point, sprite: PIXI.Sprite) {
         const boxLeft = sprite.x;
         const boxRight = sprite.x + sprite.width;
@@ -82,14 +84,14 @@ export class ActorBase implements Actor {
     }
 
     private detectCollisions() {
-        const sprites: PIXI.Sprite[] = this.app.stage.children as PIXI.Sprite[];
+        const actors: Actor[] = ActorManager.getActors().filter(actor => actor !== this);
 
-        for (const sprite of sprites) {
-            if (this._sprite.texture !== sprite.texture && this.detectCollision(this._sprite, sprite)) {
+        for (const actor of actors) {
+            if (actor.detectCollision(this)) {
                 const richText = new PIXI.Text('TOASTY', this.textStyle);
                 richText.anchor.set(0.5, 0.5);
-                richText.x = sprite.x;
-                richText.y = sprite.y + 100;
+                richText.x = this.x;
+                richText.y = this.y + 100;
 
                 this.app.stage.addChild(richText);
             }

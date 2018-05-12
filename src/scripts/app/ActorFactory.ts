@@ -1,4 +1,5 @@
 import { Actor } from 'app/Actor';
+import { ActorManager } from 'app/ActorManager';
 import { ActorOptions } from 'app/ActorOptions';
 import { ActorType } from 'app/ActorType';
 import { Enemy } from 'app/Enemy';
@@ -13,18 +14,27 @@ export class ActorFactory {
     }
 
     public createActor(actorType: ActorType, options: ActorOptions): Actor {
+        let result: Actor;
+
         switch (actorType) {
             case ActorType.Enemy:
-                return new Enemy(this.app, options);
+                result = new Enemy(this.app, options);
+                break;
 
             case ActorType.Player:
-                return new Player(this.app, options);
+                result = new Player(this.app, options);
+                break;
 
             case ActorType.Projectile:
-                return new Projectile(this.app, options);
+                result = new Projectile(this.app, options);
+                break;
 
             default:
                 throw new Error('Invalid actor type!');
         }
+
+        ActorManager.addActor(result);
+
+        return result;
     }
 }
