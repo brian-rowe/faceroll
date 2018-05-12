@@ -5,15 +5,20 @@ import { ActorOptions } from 'app/ActorOptions';
 import { ActorType } from 'app/ActorType';
 import { Key } from 'app/Key';
 import { KeyCode } from 'app/KeyCode';
+import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class Player extends ActorBase {
-    private _actorFactory: ActorFactory = new ActorFactory();
+    private _actorFactory: ActorFactory;
     private _velocityMultiplier: number = 1;
 
     constructor(
-       protected options: ActorOptions,
+        protected app: Wrapper,
+        protected options: ActorOptions,
     ) {
-        super(options);
+        super(app, options);
+
+        this._actorFactory = new ActorFactory(app);
+
         this.bindMovement();
     }
 

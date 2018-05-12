@@ -25,7 +25,7 @@ export class SampleApp {
         wordWrapWidth: 440,
     });
 
-    private _actorFactory = new ActorFactory();
+    private _actorFactory: ActorFactory;;
 
     constructor() {
 
@@ -47,6 +47,7 @@ export class SampleApp {
         };
 
         this.app = new Wrapper(appOptions);
+        this._actorFactory = new ActorFactory(this.app);
         this.app.on(WrapperEvent.RESIZE_START, this.onResizeStart.bind(this));
         this.app.on(WrapperEvent.RESIZE_END, this.onResizeEnd.bind(this));
 
@@ -90,8 +91,6 @@ export class SampleApp {
         });
 
         player.moveTo(300, 300);
-        player.setContainer(this.app.stage);
-        player.setTicker(this.app.ticker);
 
         this.app.ticker.add((delta => {
             const newX = player.x + player.vx;
@@ -107,6 +106,5 @@ export class SampleApp {
         });
 
         enemy.moveTo(this.app.screen.right - 300, 300);
-        enemy.setContainer(this.app.stage);
     }
 }
