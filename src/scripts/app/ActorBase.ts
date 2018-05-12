@@ -59,9 +59,9 @@ export class ActorBase implements Actor {
         return new PIXI.Point(sprite.x + sprite.width / 2, sprite.y + sprite.height / 2);
     }
 
-    /** Override this */
-    public handleCollision(actorType: ActorType) {
-        this.dispose();
+    /** Override this. */
+    public handleCollision(other: Actor) {
+        // Default = nothing happens
     }
 
     public moveTo(x: number, y: number) {
@@ -111,7 +111,7 @@ export class ActorBase implements Actor {
 
         for (const actor of actors) {
             if (actor.detectCollision(this)) {
-                actor.handleCollision(ActorType.Enemy);
+                actor.handleCollision(this);
             }
         }
     }
@@ -121,6 +121,10 @@ export class ActorBase implements Actor {
         const newY = this.y + this.vy;
 
         this.moveTo(newX, newY);
+    }
+
+    get actorType() {
+        return ActorType.Null;
     }
 
     get x() {

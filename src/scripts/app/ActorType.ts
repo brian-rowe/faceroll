@@ -1,5 +1,6 @@
 export const enum ActorType {
-    Player = 0,
-    Enemy = 1,
-    Projectile = 2,
+    Null = 0, // error
+    Player,
+    Enemy,
+    Projectile ,
 }

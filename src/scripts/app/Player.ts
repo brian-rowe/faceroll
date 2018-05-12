@@ -96,6 +96,10 @@ export class Player extends ActorBase {
         this._sprite.position.set(this.x, value);
     }
 
+    get actorType() {
+        return ActorType.Enemy;
+    }
+
     /** @override */
     get vx() {
         return this._vx * this._velocityMultiplier;
