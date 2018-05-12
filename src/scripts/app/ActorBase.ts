@@ -68,6 +68,15 @@ export class ActorBase implements Actor {
         this._sprite.position.set(x, y);
     }
 
+    protected rotateToPoint(x: number, y: number) {
+        const dy = y - this.y;
+        const dx = x - this.x;
+
+        const angle = Math.atan2(dy, dx);
+
+        return angle;
+    }
+
     private addTicker() {
         this.app.ticker.add(this.movementTracker);
     }

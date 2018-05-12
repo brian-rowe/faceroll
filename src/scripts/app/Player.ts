@@ -20,6 +20,7 @@ export class Player extends ActorBase {
         this._actorFactory = new ActorFactory(app);
 
         this.bindControls();
+        this.bindRotation();
     }
 
     public handleCollision(other: Actor) {
@@ -33,6 +34,13 @@ export class Player extends ActorBase {
         this.bindRight();
         this.bindDown();
         this.bindShoot();
+    }
+
+    private bindRotation() {
+        this.app.ticker.add(() => {
+            const mousePosition: PIXI.Point = this.app.renderer.plugins.interaction.mouse.global;
+            this._sprite.rotation = this.rotateToPoint(mousePosition.x, mousePosition.y);
+        });
     }
 
     private bindSprint() {
