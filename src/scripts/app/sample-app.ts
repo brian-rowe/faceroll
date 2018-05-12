@@ -91,6 +91,7 @@ export class SampleApp {
 
         player.moveTo(300, 300);
         player.setContainer(this.app.stage);
+        player.setTicker(this.app.ticker);
 
         this.app.ticker.add((delta => {
             const newX = player.x + player.vx;

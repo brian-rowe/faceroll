@@ -4,6 +4,7 @@ import { ActorOptions } from 'app/ActorOptions';
 export class ActorBase implements Actor {
     protected _container: PIXI.Container;
     protected _sprite: PIXI.Sprite;
+    protected _ticker: PIXI.ticker.Ticker;
     protected _vx: number = 0;
     protected _vy: number = 0;
 
@@ -17,6 +18,10 @@ export class ActorBase implements Actor {
     public setContainer(container: PIXI.Container) {
         this._container = container;
         container.addChild(this._sprite);
+    }
+
+    public setTicker(ticker: PIXI.ticker.Ticker) {
+        this._ticker = ticker;
     }
 
     public moveTo(x: number, y: number) {
