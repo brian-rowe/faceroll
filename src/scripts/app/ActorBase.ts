@@ -1,6 +1,6 @@
 import { Actor } from 'app/Actor';
 import { ActorOptions } from 'app/ActorOptions';
-import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper'
+import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class ActorBase implements Actor {
     protected _sprite: PIXI.Sprite;
@@ -15,14 +15,20 @@ export class ActorBase implements Actor {
         this._sprite = new PIXI.Sprite(options.texture);
         this._sprite.anchor.set(0.5, 0.5);
         this.addToContainer();
-    }
-
-    public setTicker(ticker: PIXI.ticker.Ticker) {
-        this._ticker = ticker;
+        this.trackMovement();
     }
 
     public moveTo(x: number, y: number) {
         this._sprite.position.set(x, y);
+    }
+
+    private trackMovement() {
+        this.app.ticker.add(() => {
+            const newX = this.x + this.vx;
+            const newY = this.y + this.vy;
+
+            this.moveTo(newX, newY);
+        });
     }
 
     private addToContainer() {

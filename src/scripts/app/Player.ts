@@ -19,40 +19,59 @@ export class Player extends ActorBase {
 
         this._actorFactory = new ActorFactory(app);
 
-        this.bindMovement();
+        this.bindControls();
     }
 
-    private bindMovement() {
+    private bindControls() {
+        this.bindSprint();
+        this.bindUp();
+        this.bindLeft();
+        this.bindRight();
+        this.bindDown();
+        this.bindShoot();
+    }
+
+    private bindSprint() {
         const shift = new Key(KeyCode.SHIFT, () => {
             this._velocityMultiplier = 3;
         }, () => {
             this._velocityMultiplier = 1;
         });
+    }
 
+    private bindUp() {
         const up = new Key(KeyCode.KEY_W, () => {
             this._vy = -1;
         }, () => {
             this._vy = 0;
         });
+    }
 
+    private bindDown() {
         const down = new Key(KeyCode.KEY_S, () => {
             this._vy = 1;
         }, () => {
             this._vy = 0;
         });
+    }
 
+    private bindLeft() {
         const left = new Key(KeyCode.KEY_A, () => {
             this._vx = -1;
         }, () => {
             this._vx = 0;
         });
+    }
 
+    private bindRight() {
         const right = new Key(KeyCode.KEY_D, () => {
             this._vx = 1;
         }, () => {
             this._vx = 0;
         });
+    }
 
+    private bindShoot() {
         const space = new Key(KeyCode.SPACE, () => {
             this.shoot();
         }, () => {
@@ -65,8 +84,7 @@ export class Player extends ActorBase {
             texture: PIXI.loader.resources.bubble.texture,
         });
 
-        bullet.moveTo(this.x + 300, this.y);
-        bullet.setContainer(this._container);
+        bullet.moveTo(this.x + (this._sprite.width * 3), this.y);
     }
 
     private setX(value: number) {

@@ -91,13 +91,6 @@ export class SampleApp {
         });
 
         player.moveTo(300, 300);
-
-        this.app.ticker.add((delta => {
-            const newX = player.x + player.vx;
-            const newY = player.y + player.vy;
-
-            player.moveTo(newX, newY);
-        }));
     }
 
     private createEnemies() {
