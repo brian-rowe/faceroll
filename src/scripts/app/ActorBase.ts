@@ -111,7 +111,7 @@ export class ActorBase implements Actor {
 
         for (const actor of actors) {
             if (actor.detectCollision(this)) {
-                actor.handleCollision(this);
+                this.handleCollision(actor);
             }
         }
     }

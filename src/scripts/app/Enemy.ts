@@ -13,6 +13,10 @@ export class Enemy extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
+        if (other.actorType === ActorType.Player) {
+            return;
+        }
+
         this.dispose();
     }
 

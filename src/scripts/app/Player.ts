@@ -22,6 +22,10 @@ export class Player extends ActorBase {
         this.bindControls();
     }
 
+    public handleCollision(other: Actor) {
+        this.dispose();
+    }
+
     private bindControls() {
         this.bindSprint();
         this.bindUp();
