@@ -12,14 +12,22 @@ export class ActorBase implements Actor {
         protected app: Wrapper,
         protected options: ActorOptions,
     ) {
-        this._sprite = new PIXI.Sprite(options.texture);
-        this._sprite.anchor.set(0.5, 0.5);
+        this.draw();
         this.addToContainer();
         this.trackMovement();
     }
 
     public moveTo(x: number, y: number) {
         this._sprite.position.set(x, y);
+    }
+
+    private draw() {
+        this._sprite = new PIXI.Sprite(this.options.texture);
+        this._sprite.anchor.set(0.5, 0.5);
+
+        if (this.options.scale) {
+            this._sprite.scale.set(this.options.scale.x, this.options.scale.y);
+        }
     }
 
     private trackMovement() {
