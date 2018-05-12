@@ -7,6 +7,7 @@ export class Player implements Actor {
     private _sprite: PIXI.Sprite;
     private _vx: number = 0;
     private _vy: number = 0;
+    private _velocityMultiplier: number = 1;
 
     constructor(
        private options: ActorOptions,
@@ -21,6 +22,12 @@ export class Player implements Actor {
     }
 
     private bindMovement() {
+        const shift = new Key(KeyCode.SHIFT, () => {
+            this._velocityMultiplier = 3;
+        }, () => {
+            this._velocityMultiplier = 1;
+        });
+
         const up = new Key(KeyCode.KEY_W, () => {
             this._vy = -1;
         }, () => {
@@ -73,12 +80,12 @@ export class Player implements Actor {
     /** vx */
 
     get vx() {
-        return this._vx;
+        return this._vx * this._velocityMultiplier;
     }
 
     /** vy */
 
     get vy() {
-        return this._vy;
+        return this._vy * this._velocityMultiplier;
     }
 }
