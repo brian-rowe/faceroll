@@ -1,9 +1,13 @@
 import { Actor } from 'app/Actor';
+import { ActorFactory } from 'app/ActorFactory';
 import { ActorOptions } from 'app/ActorOptions';
+import { ActorType } from 'app/ActorType';
 import { Key } from 'app/Key';
 import { KeyCode } from 'app/KeyCode';
 
 export class Player implements Actor {
+    private _actorFactory: ActorFactory = new ActorFactory();
+    private _container: PIXI.Container;
     private _sprite: PIXI.Sprite;
     private _vx: number = 0;
     private _vy: number = 0;
@@ -17,8 +21,9 @@ export class Player implements Actor {
         this.bindMovement();
     }
 
-    public addTo(container: PIXI.Container) {
-        container.addChild(this._sprite);
+    public setContainer(container: PIXI.Container) {
+        this._container = container;
+        this._container.addChild(this._sprite);
     }
 
     public moveTo(x: number, y: number) {
@@ -44,7 +49,7 @@ export class Player implements Actor {
             this._vy = 0;
         });
 
-        const left = new Key(KeyCode.KEY_A, () => { 
+        const left = new Key(KeyCode.KEY_A, () => {
             this._vx = -1;
         }, () => {
             this._vx = 0;
@@ -55,6 +60,21 @@ export class Player implements Actor {
         }, () => {
             this._vx = 0;
         });
+
+        const space = new Key(KeyCode.SPACE, () => {
+            this.shoot();
+        }, () => {
+            // nada
+        });
+    }
+
+    private shoot() {
+        const bullet = this._actorFactory.createActor(ActorType.Projectile, {
+            texture: this._sprite.texture,
+        });
+
+        bullet.moveTo(this.x + 300, this.y);
+        bullet.setContainer(this._container);
     }
 
     /** x */

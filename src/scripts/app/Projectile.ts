@@ -1,7 +1,7 @@
 import { Actor } from 'app/Actor';
 import { ActorOptions } from 'app/ActorOptions';
 
-export class Enemy implements Actor {
+export class Projectile implements Actor {
     private _container: PIXI.Container;
     private _sprite: PIXI.Sprite;
     private _vx: number = 0;
@@ -16,7 +16,7 @@ export class Enemy implements Actor {
 
     public setContainer(container: PIXI.Container) {
         this._container = container;
-        container.addChild(this._sprite);
+        this._container.addChild(this._sprite);
     }
 
     public moveTo(x: number, y: number) {
