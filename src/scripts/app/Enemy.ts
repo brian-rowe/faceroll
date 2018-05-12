@@ -21,10 +21,6 @@ export class Enemy implements Actor {
         this._sprite.position.set(x, y);
     }
 
-    get sprite() {
-        return this._sprite;
-    }
-
     get x() {
         return this._sprite.position.x;
     }

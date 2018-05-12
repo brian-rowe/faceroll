@@ -57,10 +57,6 @@ export class Player implements Actor {
         });
     }
 
-    get sprite() {
-        return this._sprite;
-    }
-
     /** x */
 
     get x() {

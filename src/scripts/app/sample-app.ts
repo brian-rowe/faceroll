@@ -90,8 +90,7 @@ export class SampleApp {
         });
 
         player.moveTo(300, 300);
-
-        this.app.stage.addChild(player.sprite);
+        player.addTo(this.app.stage);
 
         this.app.ticker.add((delta => {
             const newX = player.x + player.vx;
@@ -107,7 +106,6 @@ export class SampleApp {
         });
 
         enemy.moveTo(this.app.screen.right - 300, 300);
-
-        this.app.stage.addChild(enemy.sprite);
+        enemy.addTo(this.app.stage);
     }
 }
