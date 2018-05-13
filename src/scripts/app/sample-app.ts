@@ -107,6 +107,7 @@ export class SampleApp {
             if (ActorManager.getActorsByType(ActorType.Player).length === 0) {
                 if (!this._isGameOver) {
                     this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
+                    this.removeEnemies();
                 }
 
                 this._isGameOver = true;
@@ -179,5 +180,9 @@ export class SampleApp {
         for (let i = 0; i < amount; i++) {
             this.createEnemy();
         }
+    }
+
+    private removeEnemies() {
+        ActorManager.getActorsByType(ActorType.Enemy).map(enemy => enemy.dispose());
     }
 }
