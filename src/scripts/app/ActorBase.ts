@@ -55,7 +55,7 @@ export class ActorBase implements Actor {
     public dispose() {
         this.app.stage.removeChild(this._sprite);
 
-        this.removeTicker();
+        this.removeMovementTracker();
 
         ActorManager.removeActor(this);
     }
@@ -67,6 +67,11 @@ export class ActorBase implements Actor {
 
     public handleCollision(other: Actor) {
         // Default = nothing happens
+    }
+
+    public handleOutOfBounds() {
+        // Default = destroy
+        this.dispose();
     }
 
     public moveTo(x: number, y: number) {
@@ -88,7 +93,7 @@ export class ActorBase implements Actor {
 
     private destroyIfOutOfBounds() {
         if (this.isOutOfBounds()) {
-            this.dispose();
+            this.handleOutOfBounds();
         }
     }
 
@@ -105,7 +110,7 @@ export class ActorBase implements Actor {
         const screen = this.app.screen;
 
         // Leeway so objects can begin and end their life outside of the screen
-        const tolerance = 100;
+        const tolerance = 0;
         const right = screen.right + tolerance;
         const bottom = screen.bottom + tolerance;
 
@@ -114,7 +119,7 @@ export class ActorBase implements Actor {
         return result;
     }
 
-    private removeTicker() {
+    private removeMovementTracker() {
         this.app.ticker.remove(this.movementTracker);
     }
 

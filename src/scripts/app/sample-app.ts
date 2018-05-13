@@ -143,6 +143,11 @@ export class SampleApp {
     /** When spawning enemies, we want there to be a range around the player where an enemy cannot spawn */
     private isInsidePlayerSafeZone(x: number, y: number) {
         const currentPlayer = this.getPlayer(0);
+
+        if (!currentPlayer) {
+            return false;
+        }
+
         const safeZone = this.app.screen.width / 8;
         const minX = currentPlayer.x - safeZone;
         const maxX = currentPlayer.x + currentPlayer.width + safeZone;

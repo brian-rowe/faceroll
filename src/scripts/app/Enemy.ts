@@ -20,6 +20,13 @@ export class Enemy extends ActorBase {
         this.dispose();
     }
 
+    /** @override */
+    public handleOutOfBounds() {
+        // bounce
+        this._vx = -this._vx;
+        this._vy = -this.vy;
+    }
+
     get actorType() {
         return ActorType.Enemy;
     }

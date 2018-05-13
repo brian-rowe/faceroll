@@ -12,6 +12,7 @@ export interface Actor extends Disposable {
     vy: number;
     detectCollision(other: Actor): boolean;
     handleCollision(other: Actor): void;
+    handleOutOfBounds(): void;
     getCenter(): PIXI.Point;
     moveTo(x: number, y: number): void;
 }
