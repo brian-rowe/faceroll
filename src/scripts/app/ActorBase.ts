@@ -169,6 +169,10 @@ export class ActorBase implements Actor {
         return ActorType.Null;
     }
 
+    get height() {
+        return this._sprite.height;
+    }
+
     get parent() {
         return this._parent || null;
     }
@@ -187,5 +191,9 @@ export class ActorBase implements Actor {
 
     get vy() {
         return this._vy;
+    }
+
+    get width() {
+        return this._sprite.width;
     }
 }

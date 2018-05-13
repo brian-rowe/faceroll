@@ -1,5 +1,5 @@
-import {RotatingSprite} from 'app/rotating-sprite';
-import {TweenLite} from 'gsap';
+import { RotatingSprite } from 'app/rotating-sprite';
+import { TweenLite } from 'gsap';
 import 'howler';
 import {
     Dom,
@@ -12,6 +12,7 @@ import { ActorFactory } from 'app/ActorFactory';
 import { ActorManager } from 'app/ActorManager';
 import { ActorType } from 'app/ActorType';
 import { MathUtils } from 'app/MathUtils';
+import { Point } from 'pixi.js';
 
 /**
  * Showcase for PixiAppWrapper class.
@@ -93,7 +94,7 @@ export class SampleApp {
     }
 
     private onAssetsLoaded(): void {
-        const desiredEnemyCount = 10;
+        const desiredEnemyCount = 40;
 
         this.createPlayer();
         this.createEnemies(desiredEnemyCount);
@@ -123,15 +124,44 @@ export class SampleApp {
         player.moveTo(this.app.screen.width / 2, this.app.screen.height / 2);
     }
 
+    private getPlayer(playerIndex: number) {
+        return ActorManager.getActorsByType(ActorType.Player)[playerIndex];
+    }
+
+    private getRandomX() {
+        return MathUtils.getRandomArbitrary(0, this.app.renderer.width);
+    }
+
+    private getRandomY() {
+        return MathUtils.getRandomArbitrary(0, this.app.renderer.height);
+    }
+
+    /** When spawning enemies, we want there to be a range around the player where an enemy cannot spawn */
+    private isInsidePlayerSafeZone(x: number, y: number) {
+        const currentPlayer = this.getPlayer(0);
+        const safeZone = this.app.screen.width / 8;
+        const minX = currentPlayer.x - safeZone;
+        const maxX = currentPlayer.x + currentPlayer.width + safeZone;
+        const minY = currentPlayer.y - safeZone;
+        const maxY = currentPlayer.y + currentPlayer.height + safeZone;
+
+        return x > minX && x < maxX && y > minY && y < maxY;
+    }
+
     private createEnemy() {
+        let x = this.getRandomX();
+        let y = this.getRandomY();
+
+        while (this.isInsidePlayerSafeZone(x, y)) {
+            x = this.getRandomX();
+            y = this.getRandomY();
+        }
+
         const enemy = this._actorFactory.createActor(ActorType.Enemy, {
             rotation: Math.random(),
             speed: Math.random() > .5 ? 100 : -100,
             texture: PIXI.loader.resources.bunny.texture,
         });
-
-        const x = MathUtils.getRandomArbitrary(0, this.app.renderer.width);
-        const y = MathUtils.getRandomArbitrary(0, this.app.renderer.height);
 
         enemy.moveTo(x, y);
     }
