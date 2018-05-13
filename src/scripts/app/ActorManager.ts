@@ -1,24 +1,33 @@
 import { Actor } from 'app/Actor';
+import { ActorType } from 'app/ActorType';
 
 /** Singleton to keep track of all actors in memory */
 export class ActorManager {
     public static addActor(actor: Actor) {
-        this._actors.push(actor);
+        if (!this._actors[actor.actorType]) {
+            this._actors[actor.actorType] = [];
+        }
+
+        this._actors[actor.actorType].push(actor);
     }
 
-    public static getActors() {
-        return this._actors;
+    public static getActors(): Actor[] {
+        return Array.prototype.concat.apply([], Object.keys(this._actors).map((key: string) => this._actors[parseInt(key, 10)]));
+    }
+
+    public static getActorsByType(actorType: ActorType) {
+        return this._actors[actorType];
     }
 
     public static removeActor(actor: Actor) {
-        const index = this._actors.indexOf(actor);
+        const index = this._actors[actor.actorType].indexOf(actor);
 
         if (index > -1) {
-            this._actors.splice(index, 1);
+            this._actors[actor.actorType].splice(index, 1);
         }
     }
 
-    private static _actors: Actor[] = [];
+    private static _actors: { [actorType: number]: Actor[] } = {};
 
     private constructor() {}
 }
