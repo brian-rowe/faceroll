@@ -9,7 +9,7 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
-    private _velocityMultiplier: number = 1;
+    private _velocityMultiplier: number = 500;
 
     constructor(
         protected app: Wrapper,
@@ -45,9 +45,9 @@ export class Player extends ActorBase {
 
     private bindSprint() {
         const shift = new KeyHandler(KeyCode.SHIFT, () => {
-            this._velocityMultiplier = 3;
+            this._velocityMultiplier = 1000;
         }, () => {
-            this._velocityMultiplier = 1;
+            this._velocityMultiplier = 500;
         });
     }
 
