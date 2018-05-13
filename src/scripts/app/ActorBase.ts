@@ -12,7 +12,7 @@ export class ActorBase implements Actor {
 
     private _parent: Actor;
     /** Need to share one instance between the add/remove functions */
-    private movementTracker: () => void;
+    private movementTracker: (deltaTime: number) => void;
 
     private textStyle = new PIXI.TextStyle({
         fontFamily: 'Verdana',
@@ -27,7 +27,7 @@ export class ActorBase implements Actor {
         protected options: ActorOptions,
     ) {
         this.setParent();
-        this.movementTracker = () => this.trackMovement();
+        this.movementTracker = (deltaTime: number) => this.trackMovement(deltaTime);
 
         this.draw();
         this.addToContainer();
@@ -101,8 +101,8 @@ export class ActorBase implements Actor {
         this.app.ticker.remove(this.movementTracker);
     }
 
-    private trackMovement() {
-        this.updateLocation();
+    private trackMovement(deltaTime: number) {
+        this.updateLocation(deltaTime);
         this.detectCollisions();
     }
 
@@ -148,9 +148,9 @@ export class ActorBase implements Actor {
         }
     }
 
-    private updateLocation() {
-        const newX = this.x + this.vx;
-        const newY = this.y + this.vy;
+    private updateLocation(deltaTime: number) {
+        const newX = this.x + (this.vx * deltaTime);
+        const newY = this.y + (this.vy * deltaTime);
 
         this.moveTo(newX, newY);
     }
