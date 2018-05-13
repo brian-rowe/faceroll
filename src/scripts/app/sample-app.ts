@@ -193,6 +193,7 @@ export class SampleApp {
         const y = this.getRandomY();
 
         const powerup = this._actorFactory.createActor(ActorType.Powerup, {
+            scale: new PIXI.Point(0.5, 0.5),
             texture: PIXI.loader.resources.stop.texture,
         });
 
