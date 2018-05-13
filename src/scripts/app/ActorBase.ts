@@ -31,7 +31,7 @@ export class ActorBase implements Actor {
 
         this.draw();
         this.addToContainer();
-        this.addTicker();
+        this.addMovementTracker();
         this.setSpeed();
         ActorManager.addActor(this);
     }
@@ -84,7 +84,7 @@ export class ActorBase implements Actor {
         return angle;
     }
 
-    private addTicker() {
+    private addMovementTracker() {
         this.app.ticker.add(this.movementTracker);
     }
 
@@ -146,7 +146,7 @@ export class ActorBase implements Actor {
             this._vx = Math.cos(rotation) * speed;
             this._vy = Math.sin(rotation) * speed;
         }
-    };
+    }
 
     private updateLocation() {
         const newX = this.x + this.vx;
