@@ -100,6 +100,10 @@ export class SampleApp {
         this.createEnemies(desiredEnemyCount);
 
         this.app.ticker.add(deltaTime => {
+            if (this._isGameOver) {
+                this.app.ticker.stop();
+            }
+
             if (ActorManager.getActorsByType(ActorType.Player).length === 0) {
                 if (!this._isGameOver) {
                     this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
