@@ -16,7 +16,7 @@ export class ActorManager {
     }
 
     public static getActorsByType(actorType: ActorType) {
-        return this._actors[actorType];
+        return this._actors[actorType] || [];
     }
 
     public static removeActor(actor: Actor) {

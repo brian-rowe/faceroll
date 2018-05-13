@@ -11,6 +11,7 @@ import {
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorType } from 'app/ActorType';
 import { MathUtils } from 'app/MathUtils';
+import { ActorManager } from 'app/ActorManager';
 
 /**
  * Showcase for PixiAppWrapper class.
@@ -81,9 +82,24 @@ export class SampleApp {
 
     }
 
+    private addGameOverText(x: number, y: number): void {
+        const gameOverText = new PIXI.Text('YOU DIED', this.textStyle);
+        gameOverText.anchor.set(0.5, 0.5);
+        gameOverText.x = x;
+        gameOverText.y = y;
+
+        this.app.stage.addChild(gameOverText);
+    }
+
     private onAssetsLoaded(): void {
         this.createPlayer();
         this.createEnemies();
+
+        this.app.ticker.add(deltaTime => {
+            if (ActorManager.getActorsByType(ActorType.Player).length === 0) {
+                this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
+            }
+        });
     }
 
     private createPlayer() {

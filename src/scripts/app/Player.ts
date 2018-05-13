@@ -112,7 +112,7 @@ export class Player extends ActorBase {
     }
 
     get actorType() {
-        return ActorType.Enemy;
+        return ActorType.Player;
     }
 
     /** @override */
