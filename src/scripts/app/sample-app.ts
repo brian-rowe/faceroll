@@ -93,8 +93,10 @@ export class SampleApp {
     }
 
     private onAssetsLoaded(): void {
+        const desiredEnemyCount = 10;
+
         this.createPlayer();
-        this.createEnemies();
+        this.createEnemies(desiredEnemyCount);
 
         this.app.ticker.add(deltaTime => {
             if (ActorManager.getActorsByType(ActorType.Player).length === 0) {
@@ -103,6 +105,12 @@ export class SampleApp {
                 }
 
                 this._isGameOver = true;
+            }
+
+            const enemyCount = ActorManager.getActorsByType(ActorType.Enemy).length;
+
+            if (enemyCount < desiredEnemyCount) {
+                this.createEnemy();
             }
         });
     }
@@ -128,8 +136,8 @@ export class SampleApp {
         enemy.moveTo(x, y);
     }
 
-    private createEnemies() {
-        for (let i = 0; i < 30; i++) {
+    private createEnemies(amount: number) {
+        for (let i = 0; i < amount; i++) {
             this.createEnemy();
         }
     }
