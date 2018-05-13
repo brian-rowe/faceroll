@@ -13,7 +13,8 @@ export class Enemy extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
-        if (other.actorType === ActorType.Player) {
+        if (other.actorType === ActorType.Player
+            || other.actorType === ActorType.Enemy) {
             return;
         }
 
