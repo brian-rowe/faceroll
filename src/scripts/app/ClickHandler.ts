@@ -1,23 +1,23 @@
-export class KeyHandler {
-    private _code: number;
+export class ClickHandler {
+    private _button: number;
     private _isDown: boolean;
     private _isUp: boolean;
     private _press: () => any;
     private _release: () => any;
 
-    constructor(keyCode: number, press: () => any, release: () => any) {
-        this._code = keyCode;
+    constructor(buttonCode: number, press: () => any, release: () => any) {
+        this._button = buttonCode;
         this._isDown = false;
         this._isUp = true;
         this._press = press;
         this._release = release;
 
-        window.addEventListener('keydown', event => this.downHandler(event), false);
-        window.addEventListener('keyup', event => this.upHandler(event), false);
+        window.addEventListener('mousedown', event => this.downHandler(event), false);
+        window.addEventListener('mouseup', event => this.upHandler(event), false);
     }
 
-    private downHandler(event: KeyboardEvent) {
-        if (event.keyCode === this._code) {
+    private downHandler(event: MouseEvent) {
+        if (event.button === this._button) {
             if (this._isUp) {
                 this._press();
             }
@@ -29,8 +29,8 @@ export class KeyHandler {
         event.preventDefault();
     }
 
-    private upHandler(event: KeyboardEvent) {
-        if (event.keyCode === this._code) {
+    private upHandler(event: MouseEvent) {
+        if (event.button === this._button) {
             if (this._isDown) {
                 this._release();
             }

@@ -3,9 +3,11 @@ import { ActorBase } from 'app/ActorBase';
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorOptions } from 'app/ActorOptions';
 import { ActorType } from 'app/ActorType';
+import { ClickHandler } from 'app/ClickHandler';
 import { KeyCode } from 'app/KeyCode';
 import { KeyHandler } from 'app/KeyHandler';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
+import { MouseCode } from 'app/MouseCode';
 
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
@@ -84,7 +86,7 @@ export class Player extends ActorBase {
     }
 
     private bindShoot() {
-        const space = new KeyHandler(KeyCode.SPACE, () => {
+        const leftMouse = new ClickHandler(MouseCode.Primary, () => {
             this.shoot();
         }, () => {
             // nada

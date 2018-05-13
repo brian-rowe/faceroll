@@ -115,18 +115,22 @@ export class SampleApp {
         player.moveTo(this.app.screen.width / 2, this.app.screen.height / 2);
     }
 
+    private createEnemy() {
+        const enemy = this._actorFactory.createActor(ActorType.Enemy, {
+            rotation: Math.random(),
+            speed: Math.random() > .5 ? 100 : -100,
+            texture: PIXI.loader.resources.bunny.texture,
+        });
+
+        const x = MathUtils.getRandomArbitrary(0, this.app.renderer.width);
+        const y = MathUtils.getRandomArbitrary(0, this.app.renderer.height);
+
+        enemy.moveTo(x, y);
+    }
+
     private createEnemies() {
         for (let i = 0; i < 30; i++) {
-            const enemy = this._actorFactory.createActor(ActorType.Enemy, {
-                rotation: Math.random(),
-                speed: Math.random() > .5 ? 100 : -100,
-                texture: PIXI.loader.resources.bunny.texture,
-            });
-
-            const x = MathUtils.getRandomArbitrary(0, this.app.renderer.width);
-            const y = MathUtils.getRandomArbitrary(0, this.app.renderer.height);
-
-            enemy.moveTo(x, y);
+            this.createEnemy();
         }
     }
 }
