@@ -139,7 +139,7 @@ export class ActorBase implements Actor {
         const delta = (now - this._lastUpdate) * this._multiplier;
         this._lastUpdate = now;
 
-        const newX = this.x + (this.vx * delta)
+        const newX = this.x + (this.vx * delta);
         const newY = this.y + (this.vy * delta);
 
         this.moveTo(newX, newY);
