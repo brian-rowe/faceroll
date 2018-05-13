@@ -9,9 +9,9 @@ import {
 } from 'pixi-app-wrapper';
 
 import { ActorFactory } from 'app/ActorFactory';
+import { ActorManager } from 'app/ActorManager';
 import { ActorType } from 'app/ActorType';
 import { MathUtils } from 'app/MathUtils';
-import { ActorManager } from 'app/ActorManager';
 
 /**
  * Showcase for PixiAppWrapper class.
@@ -113,6 +113,7 @@ export class SampleApp {
     private createEnemies() {
         for (let i = 0; i < 30; i++) {
             const enemy = this._actorFactory.createActor(ActorType.Enemy, {
+                speed: 100,
                 texture: PIXI.loader.resources.bunny.texture,
             });
 

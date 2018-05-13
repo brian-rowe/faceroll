@@ -86,6 +86,12 @@ export class ActorBase implements Actor {
         this.app.ticker.add(this.movementTracker);
     }
 
+    private destroyIfOutOfBounds() {
+        if (this.isOutOfBounds()) {
+            this.dispose();
+        }
+    }
+
     private draw() {
         this._sprite = new PIXI.Sprite(this.options.texture);
         this._sprite.anchor.set(0.5, 0.5);
@@ -95,6 +101,19 @@ export class ActorBase implements Actor {
         }
     }
 
+    private isOutOfBounds(): boolean {
+        const screen = this.app.screen;
+
+        // Leeway so objects can begin and end their life outside of the screen
+        const tolerance = 100;
+        const right = screen.right + tolerance;
+        const bottom = screen.bottom + tolerance;
+
+        const result = this.x > right || this.x < -tolerance || this.y > bottom || this.y < -tolerance;
+
+        return result;
+    }
+
     private removeTicker() {
         this.app.ticker.remove(this.movementTracker);
     }
@@ -102,6 +121,7 @@ export class ActorBase implements Actor {
     private trackMovement() {
         this.updateLocation();
         this.detectCollisions();
+        this.destroyIfOutOfBounds();
     }
 
     private addToContainer() {
