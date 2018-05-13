@@ -27,7 +27,8 @@ export class SampleApp {
         wordWrapWidth: 440,
     });
 
-    private _actorFactory: ActorFactory;;
+    private _actorFactory: ActorFactory;
+    private _isGameOver: boolean;
 
     constructor() {
 
@@ -97,7 +98,11 @@ export class SampleApp {
 
         this.app.ticker.add(deltaTime => {
             if (ActorManager.getActorsByType(ActorType.Player).length === 0) {
-                this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
+                if (!this._isGameOver) {
+                    this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
+                }
+
+                this._isGameOver = true;
             }
         });
     }
@@ -113,7 +118,8 @@ export class SampleApp {
     private createEnemies() {
         for (let i = 0; i < 30; i++) {
             const enemy = this._actorFactory.createActor(ActorType.Enemy, {
-                speed: 100,
+                rotation: Math.random(),
+                speed: Math.random() > .5 ? 100 : -100,
                 texture: PIXI.loader.resources.bunny.texture,
             });
 
