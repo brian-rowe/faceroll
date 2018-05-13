@@ -17,6 +17,10 @@ export class Enemy extends ActorBase {
             return;
         }
 
+        if (other.actorType === ActorType.Projectile) {
+            other.dispose();
+        }
+
         this.dispose();
     }
 
