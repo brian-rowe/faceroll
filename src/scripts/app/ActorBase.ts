@@ -10,6 +10,8 @@ export class ActorBase implements Actor {
     protected _vx: number = 0;
     protected _vy: number = 0;
 
+    private _lastUpdate: number = new Date().getTime();
+    private _multiplier: number = 0.001; // The timestamps used for movement will be in ms
     private _parent: Actor;
     /** Need to share one instance between the add/remove functions */
     private movementTracker: () => void;
@@ -149,8 +151,12 @@ export class ActorBase implements Actor {
     }
 
     private updateLocation() {
-        const newX = this.x + this.vx;
-        const newY = this.y + this.vy;
+        const now = new Date().getTime();
+        const delta = (now - this._lastUpdate) * this._multiplier;
+        this._lastUpdate = now;
+
+        const newX = this.x + (this.vx * delta)
+        const newY = this.y + (this.vy * delta);
 
         this.moveTo(newX, newY);
     }
