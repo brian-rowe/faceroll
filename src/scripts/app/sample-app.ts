@@ -10,6 +10,7 @@ import {
 
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorType } from 'app/ActorType';
+import { MathUtils } from 'app/MathUtils';
 
 /**
  * Showcase for PixiAppWrapper class.
@@ -94,10 +95,15 @@ export class SampleApp {
     }
 
     private createEnemies() {
-        const enemy = this._actorFactory.createActor(ActorType.Enemy, {
-            texture: PIXI.loader.resources.bunny.texture,
-        });
+        for (let i = 0; i < 30; i++) {
+            const enemy = this._actorFactory.createActor(ActorType.Enemy, {
+                texture: PIXI.loader.resources.bunny.texture,
+            });
 
-        enemy.moveTo(500, 300);
+            const x = MathUtils.getRandomArbitrary(0, this.app.renderer.width);
+            const y = MathUtils.getRandomArbitrary(0, this.app.renderer.height);
+
+            enemy.moveTo(x, y);
+        }
     }
 }
