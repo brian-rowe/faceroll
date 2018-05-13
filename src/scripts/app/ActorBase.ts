@@ -78,6 +78,10 @@ export class ActorBase implements Actor {
         this._sprite.position.set(x, y);
     }
 
+    public respondToCollision() {
+        // nada
+    }
+
     protected rotateToPoint(x: number, y: number) {
         const dy = y - this.y;
         const dx = x - this.x;

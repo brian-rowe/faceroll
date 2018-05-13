@@ -12,6 +12,10 @@ export class Projectile extends ActorBase {
         super(app, options);
     }
 
+    public respondToCollision() {
+        this.dispose();
+    }
+
     get actorType() {
         return ActorType.Projectile;
     }
