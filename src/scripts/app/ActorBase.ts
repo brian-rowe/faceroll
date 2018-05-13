@@ -44,16 +44,12 @@ export class ActorBase implements Actor {
             return false;
         }
 
+        const interactionManager = this.app.renderer.plugins.interaction;
+
         /** Find the center point of the target sprite */
         const targetCenter = target.getCenter();
 
-        /**
-         * If any part of the host sprite (projectile/attack) hits the center of the target sprite (player/enemy)
-         * then that thing has been hit.
-         */
-        const targetCenterXIsInside = this.isPointInsideSprite(targetCenter, this._sprite);
-
-        return targetCenterXIsInside;
+        return this._sprite.containsPoint(targetCenter);
     }
 
     public dispose() {
@@ -110,18 +106,6 @@ export class ActorBase implements Actor {
 
     private addToContainer() {
         this.app.stage.addChild(this._sprite);
-    }
-
-    private isPointInsideSprite(point: PIXI.Point, sprite: PIXI.Sprite) {
-        const boxLeft = sprite.x;
-        const boxRight = sprite.x + sprite.width;
-        const boxTop = sprite.y;
-        const boxBottom = sprite.y + sprite.height;
-
-        const isInsideXPlane = point.x > boxLeft && point.x < boxRight;
-        const isInsideYPlane = point.y > boxTop && point.y < boxBottom;
-
-        return isInsideXPlane && isInsideYPlane;
     }
 
     private detectCollisions() {
