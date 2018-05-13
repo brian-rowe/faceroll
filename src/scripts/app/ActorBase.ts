@@ -78,7 +78,7 @@ export class ActorBase implements Actor {
         this._sprite.position.set(x, y);
     }
 
-    public respondToCollision() {
+    public respondToCollision(other: Actor) {
         // nada
     }
 

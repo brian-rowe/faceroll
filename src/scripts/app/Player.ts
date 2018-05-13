@@ -6,8 +6,8 @@ import { ActorType } from 'app/ActorType';
 import { ClickHandler } from 'app/ClickHandler';
 import { KeyCode } from 'app/KeyCode';
 import { KeyHandler } from 'app/KeyHandler';
-import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 import { MouseCode } from 'app/MouseCode';
+import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
@@ -26,6 +26,10 @@ export class Player extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
+        if (other.actorType === ActorType.Powerup) {
+            return;
+        }
+
         this.dispose();
     }
 

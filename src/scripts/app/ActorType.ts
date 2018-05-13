@@ -3,4 +3,5 @@ export const enum ActorType {
     Player,
     Enemy,
     Projectile,
+    Powerup,
 }

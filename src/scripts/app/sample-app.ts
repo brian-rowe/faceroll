@@ -118,6 +118,12 @@ export class SampleApp {
             if (enemyCount < desiredEnemyCount) {
                 this.createEnemy();
             }
+
+            const powerupCount = ActorManager.getActorsByType(ActorType.Powerup).length;
+
+            if (Math.random() < .01 && powerupCount < 10) {
+                this.createPowerup();
+            }
         });
     }
 
@@ -180,6 +186,17 @@ export class SampleApp {
         for (let i = 0; i < amount; i++) {
             this.createEnemy();
         }
+    }
+
+    private createPowerup() {
+        const x = this.getRandomX();
+        const y = this.getRandomY();
+
+        const powerup = this._actorFactory.createActor(ActorType.Powerup, {
+            texture: PIXI.loader.resources.stop.texture,
+        });
+
+        powerup.moveTo(x, y);
     }
 
     private removeEnemies() {
