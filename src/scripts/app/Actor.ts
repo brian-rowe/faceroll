@@ -12,11 +12,8 @@ export interface Actor extends Disposable {
     vy: number;
     detectCollision(other: Actor): boolean;
 
-    /** What happens if something hits this? */
+    /** What happens if something touches the center of this? */
     handleCollision(other: Actor): void;
-
-    /** What happens if this hits something? */
-    respondToCollision(other: Actor): void;
 
     handleOutOfBounds(): void;
     getCenter(): PIXI.Point;

@@ -14,10 +14,8 @@ export class Projectile extends ActorBase {
         super(app, options);
     }
 
-    public respondToCollision(other: Actor) {
-        if (!this._pierce) {
-            this.dispose();
-        }
+    public handleCollision(other: Actor) {
+        // nada
     }
 
     get actorType() {

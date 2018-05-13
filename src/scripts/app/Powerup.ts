@@ -18,12 +18,6 @@ export class Powerup extends ActorBase {
         }
     }
 
-    public respondToCollision(other: Actor) {
-        if (other.actorType === ActorType.Player) {
-            this.dispose();
-        }
-    }
-
     get actorType() {
         return ActorType.Powerup;
     }

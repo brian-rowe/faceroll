@@ -13,8 +13,6 @@ export class Enemy extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
-        other.respondToCollision(this);
-
         this.dispose();
     }
 
