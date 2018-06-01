@@ -32,6 +32,10 @@ export class ActorManager {
         }
     }
 
+    public static removeAllActors() {
+        this.getActors().forEach(actor => this.removeActor(actor));
+    }
+
     public static removeAllEnemies() {
         this.getActorsByType(ActorType.Enemy).forEach(enemy => this.removeActor(enemy));
     }
