@@ -45,7 +45,7 @@ export class Game {
             resolution: window.devicePixelRatio,
             roundPixels: true,
             transparent: false,
-            backgroundColor: 0x000000,
+            backgroundColor: 0x111111,
             view: canvas,
             showFPS: true,
         };
