@@ -114,16 +114,18 @@ export class Game {
                 this._isGameOver = true;
             }
 
-            const enemyCount = ActorManager.getActorsByType(ActorType.Enemy).length;
+            if (!this._isGameOver) {
+                const enemyCount = ActorManager.getActorsByType(ActorType.Enemy).length;
 
-            if (enemyCount < desiredEnemyCount) {
-                this.createEnemy();
-            }
+                if (enemyCount < desiredEnemyCount) {
+                    this.createEnemy();
+                }
 
-            const powerupCount = ActorManager.getActorsByType(ActorType.Powerup).length;
+                const powerupCount = ActorManager.getActorsByType(ActorType.Powerup).length;
 
-            if (Math.random() < .01 && powerupCount < 10) {
-                this.createPowerup();
+                if (Math.random() < .01 && powerupCount < 10) {
+                    this.createPowerup();
+                }
             }
         });
     }
