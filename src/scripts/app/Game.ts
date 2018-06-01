@@ -10,6 +10,7 @@ import {
 
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorManager } from 'app/ActorManager';
+import { ActorSpeed } from 'app/ActorSpeed';
 import { ActorType } from 'app/ActorType';
 import { MathUtils } from 'app/MathUtils';
 import { Point } from 'pixi.js';
@@ -129,6 +130,7 @@ export class Game {
 
     private createPlayer() {
         const player = this._actorFactory.createActor(ActorType.Player, {
+            speed: ActorSpeed.Stop,
             texture: PIXI.loader.resources.explorer.texture,
         });
 
@@ -165,17 +167,17 @@ export class Game {
     }
 
     private createEnemy() {
-        let x = this.getRandomX();
-        let y = this.getRandomY();
+        let x: number;
+        let y: number;
 
-        while (this.isInsidePlayerSafeZone(x, y)) {
+        do {
             x = this.getRandomX();
             y = this.getRandomY();
-        }
+        } while (this.isInsidePlayerSafeZone(x, y));
 
         const enemy = this._actorFactory.createActor(ActorType.Enemy, {
             rotation: Math.random(),
-            speed: Math.random() > .5 ? 100 : -100,
+            speed: ActorSpeed.Slow / 3,
             texture: PIXI.loader.resources.bunny.texture,
         });
 
@@ -194,6 +196,7 @@ export class Game {
 
         const powerup = this._actorFactory.createActor(ActorType.Powerup, {
             scale: new PIXI.Point(0.5, 0.5),
+            speed: ActorSpeed.Stop,
             texture: PIXI.loader.resources.stop.texture,
         });
 

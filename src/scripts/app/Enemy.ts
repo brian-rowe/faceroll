@@ -19,8 +19,8 @@ export class Enemy extends ActorBase {
     /** @override */
     public handleOutOfBounds() {
         // bounce
-        this._vx = -this._vx;
-        this._vy = -this.vy;
+        this.reverseXDirection();
+        this.reverseYDirection();
     }
 
     get actorType() {

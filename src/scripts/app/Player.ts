@@ -2,6 +2,7 @@ import { Actor } from 'app/Actor';
 import { ActorBase } from 'app/ActorBase';
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorOptions } from 'app/ActorOptions';
+import { ActorSpeed } from 'app/ActorSpeed';
 import { ActorType } from 'app/ActorType';
 import { ClickHandler } from 'app/ClickHandler';
 import { KeyCode } from 'app/KeyCode';
@@ -59,33 +60,33 @@ export class Player extends ActorBase {
 
     private bindUp() {
         const up = new KeyHandler(KeyCode.KEY_W, () => {
-            this._vy = -1;
+            this.vy = -1;
         }, () => {
-            this._vy = 0;
+            this.vy = 0;
         });
     }
 
     private bindDown() {
         const down = new KeyHandler(KeyCode.KEY_S, () => {
-            this._vy = 1;
+            this.vy = 1;
         }, () => {
-            this._vy = 0;
+            this.vy = 0;
         });
     }
 
     private bindLeft() {
         const left = new KeyHandler(KeyCode.KEY_A, () => {
-            this._vx = -1;
+            this.vx = -1;
         }, () => {
-            this._vx = 0;
+            this.vx = 0;
         });
     }
 
     private bindRight() {
         const right = new KeyHandler(KeyCode.KEY_D, () => {
-            this._vx = 1;
+            this.vx = 1;
         }, () => {
-            this._vx = 0;
+            this.vx = 0;
         });
     }
 
@@ -97,11 +98,19 @@ export class Player extends ActorBase {
         });
     }
 
+    private bindSkill() {
+        const secondaryClickHandler = new ClickHandler(MouseCode.Secondary, (event: MouseEvent) => {
+            return false;
+        }, () => {
+            // nada
+        });
+    }
+
     private shoot() {
         const bullet = this._actorFactory.createActor(ActorType.Projectile, {
             parent: this,
             rotation: this._sprite.rotation,
-            speed: 1000,
+            speed: ActorSpeed.Fast,
             texture: PIXI.loader.resources.bubble.texture,
             scale: new PIXI.Point(0.3, 0.3),
         });
@@ -119,15 +128,5 @@ export class Player extends ActorBase {
 
     get actorType() {
         return ActorType.Player;
-    }
-
-    /** @override */
-    get vx() {
-        return this._vx * this._velocityMultiplier;
-    }
-
-    /** @override */
-    get vy() {
-        return this._vy * this._velocityMultiplier;
     }
 }

@@ -19,7 +19,7 @@ export class ClickHandler {
     private downHandler(event: MouseEvent) {
         if (event.button === this._button) {
             if (this._isUp) {
-                this._press(event);
+                return this._press(event);
             }
 
             this._isDown = true;
@@ -32,7 +32,7 @@ export class ClickHandler {
     private upHandler(event: MouseEvent) {
         if (event.button === this._button) {
             if (this._isDown) {
-                this._release(event);
+                return this._release(event);
             }
             this._isDown = false;
             this._isUp = true;

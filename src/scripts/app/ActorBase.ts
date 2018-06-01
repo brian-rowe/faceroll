@@ -1,20 +1,21 @@
 import { Actor } from 'app/Actor';
 import { ActorManager } from 'app/ActorManager';
 import { ActorOptions } from 'app/ActorOptions';
+import { ActorSpeed } from 'app/ActorSpeed';
 import { ActorType } from 'app/ActorType';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class ActorBase implements Actor {
     protected _sprite: PIXI.Sprite;
     protected _ticker: PIXI.ticker.Ticker;
-    protected _velocityMultiplier: number = 500;
-    protected _vx: number = 0;
-    protected _vy: number = 0;
+    protected _velocityMultiplier: ActorSpeed = ActorSpeed.Normal;
 
     private _lastUpdate: number = new Date().getTime();
     private _money: number = 1; // default
     private _multiplier: number = 0.001; // The timestamps used for movement will be in ms
     private _parent: Actor;
+    private _vx: number = 0;
+    private _vy: number = 0;
     /** Need to share one instance between the add/remove functions */
     private movementTracker: () => void;
 
@@ -89,6 +90,14 @@ export class ActorBase implements Actor {
         return angle;
     }
 
+    protected reverseXDirection() {
+        this._vx = -this._vx;
+    }
+
+    protected reverseYDirection() {
+        this._vy = -this._vy;
+    }
+
     private addMovementTracker() {
         this.app.ticker.add(this.movementTracker);
     }
@@ -156,8 +165,10 @@ export class ActorBase implements Actor {
             const rotation = this.options.rotation || 0;
             const speed = this.options.speed || 0;
 
-            this._vx = Math.cos(rotation) * speed;
-            this._vy = Math.sin(rotation) * speed;
+            this._velocityMultiplier = speed;
+
+            this._vx = Math.cos(rotation);
+            this._vy = Math.sin(rotation);
         }
     }
 
@@ -201,11 +212,19 @@ export class ActorBase implements Actor {
     }
 
     get vx() {
-        return this._vx;
+        return this._vx * this._velocityMultiplier;
+    }
+
+    set vx(value: ActorSpeed) {
+        this._vx = value;
     }
 
     get vy() {
-        return this._vy;
+        return this._vy * this._velocityMultiplier;
+    }
+
+    set vy(value: ActorSpeed) {
+        this._vy = value;
     }
 
     get width() {
