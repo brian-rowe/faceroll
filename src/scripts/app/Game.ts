@@ -108,7 +108,7 @@ export class Game {
             if (ActorManager.playerIsDead()) {
                 if (!this._isGameOver) {
                     this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
-                    this.removeEnemies();
+                    ActorManager.removeAllEnemies();
                 }
 
                 this._isGameOver = true;
@@ -201,9 +201,5 @@ export class Game {
         });
 
         powerup.moveTo(x, y);
-    }
-
-    private removeEnemies() {
-        ActorManager.getActorsByType(ActorType.Enemy).map(enemy => enemy.dispose());
     }
 }

@@ -31,6 +31,10 @@ export class ActorManager {
         }
     }
 
+    public static removeAllEnemies() {
+        this.getActorsByType(ActorType.Enemy).forEach(enemy => enemy.dispose());
+    }
+
     private static _actors: { [actorType: number]: Actor[] } = {};
 
     private constructor() {}
