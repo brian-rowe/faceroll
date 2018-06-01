@@ -19,6 +19,10 @@ export class ActorManager {
         return this._actors[actorType] || [];
     }
 
+    public static playerIsDead(): boolean {
+        return this.getActorsByType(ActorType.Player).length === 0;
+    }
+
     public static removeActor(actor: Actor) {
         const index = this._actors[actor.actorType].indexOf(actor);
 

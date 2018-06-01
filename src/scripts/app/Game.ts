@@ -105,7 +105,7 @@ export class Game {
                 this.app.ticker.stop();
             }
 
-            if (ActorManager.getActorsByType(ActorType.Player).length === 0) {
+            if (ActorManager.playerIsDead()) {
                 if (!this._isGameOver) {
                     this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
                     this.removeEnemies();
