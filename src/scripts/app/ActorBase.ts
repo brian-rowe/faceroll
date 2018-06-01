@@ -7,6 +7,7 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 export class ActorBase implements Actor {
     protected _sprite: PIXI.Sprite;
     protected _ticker: PIXI.ticker.Ticker;
+    protected _velocityMultiplier: number = 500;
     protected _vx: number = 0;
     protected _vy: number = 0;
 

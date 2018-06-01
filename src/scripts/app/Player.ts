@@ -11,7 +11,6 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
-    private _velocityMultiplier: number = 500;
 
     constructor(
         protected app: Wrapper,
