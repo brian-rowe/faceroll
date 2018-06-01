@@ -101,10 +101,6 @@ export class Game {
         this.createEnemies(desiredEnemyCount);
 
         this.app.ticker.add(deltaTime => {
-            if (this._isGameOver) {
-                this.app.ticker.stop();
-            }
-
             if (ActorManager.playerIsDead()) {
                 if (!this._isGameOver) {
                     this.addGameOverText(this.app.screen.width / 2, this.app.screen.height / 2);
@@ -114,7 +110,9 @@ export class Game {
                 this._isGameOver = true;
             }
 
-            if (!this._isGameOver) {
+            if (this._isGameOver) {
+                this.app.ticker.stop();
+            } else {
                 const enemyCount = ActorManager.getActorsByType(ActorType.Enemy).length;
 
                 if (enemyCount < desiredEnemyCount) {
