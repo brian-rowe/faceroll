@@ -38,6 +38,18 @@ export class Player extends ActorBase {
         }
     }
 
+    public handleCollided(other: Actor) {
+        switch (other.actorType) {
+            case ActorType.Powerup: {
+                this._velocityMultiplier *= 2;
+            }
+
+            default: {
+                return;
+            }
+        }
+    }
+
     private bindControls() {
         this.bindSprint();
         this.bindUp();
