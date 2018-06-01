@@ -13,7 +13,16 @@ export class Enemy extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
-        this.dispose();
+        switch (other.actorType) {
+            // Player running into enemy should always kill player, not enemy
+            case ActorType.Player: {
+                return;
+            }
+
+            default: {
+                this.dispose();
+            }
+        }
     }
 
     /** @override */
