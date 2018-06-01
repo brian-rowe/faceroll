@@ -27,11 +27,15 @@ export class Player extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
-        if (other.actorType === ActorType.Powerup) {
-            return;
-        }
+        switch (other.actorType) {
+            case ActorType.Powerup: {
+                return;
+            }
 
-        this.dispose();
+            default: {
+                this.dispose();
+            }
+        }
     }
 
     private bindControls() {
