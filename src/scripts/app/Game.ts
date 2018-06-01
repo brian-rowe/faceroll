@@ -24,7 +24,7 @@ export class Game {
     private textStyle = new PIXI.TextStyle({
         fontFamily: 'Verdana',
         fontSize: 18,
-        fill: '#FFFFFF',
+        fill: '#FF0000',
         wordWrap: true,
         wordWrapWidth: 440,
     });
