@@ -2,10 +2,10 @@ export class ClickHandler {
     private _button: number;
     private _isDown: boolean;
     private _isUp: boolean;
-    private _press: () => any;
-    private _release: () => any;
+    private _press: (event: MouseEvent) => any;
+    private _release: (event: MouseEvent) => any;
 
-    constructor(buttonCode: number, press: () => any, release: () => any) {
+    constructor(buttonCode: number, press: (event?: MouseEvent) => any, release: (event?: MouseEvent) => any) {
         this._button = buttonCode;
         this._isDown = false;
         this._isUp = true;
@@ -19,7 +19,7 @@ export class ClickHandler {
     private downHandler(event: MouseEvent) {
         if (event.button === this._button) {
             if (this._isUp) {
-                this._press();
+                this._press(event);
             }
 
             this._isDown = true;
@@ -32,7 +32,7 @@ export class ClickHandler {
     private upHandler(event: MouseEvent) {
         if (event.button === this._button) {
             if (this._isDown) {
-                this._release();
+                this._release(event);
             }
             this._isDown = false;
             this._isUp = true;

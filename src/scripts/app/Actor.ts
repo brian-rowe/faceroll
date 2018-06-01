@@ -5,6 +5,7 @@ export interface Actor extends Disposable {
     actorType: ActorType;
     parent?: Actor;
     height: number;
+    money: number;
     x: number;
     y: number;
     width: number;

@@ -20,6 +20,7 @@ export class Player extends ActorBase {
         super(app, options);
 
         this._actorFactory = new ActorFactory(app);
+        this.money = 1e6; // start with a small loan of a million dollars
 
         this.bindControls();
         this.bindRotation();
@@ -90,7 +91,7 @@ export class Player extends ActorBase {
     }
 
     private bindShoot() {
-        const leftMouse = new ClickHandler(MouseCode.Primary, () => {
+        const primaryClickHandler = new ClickHandler(MouseCode.Primary, () => {
             this.shoot();
         }, () => {
             // nada

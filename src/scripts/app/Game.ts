@@ -17,7 +17,7 @@ import { Point } from 'pixi.js';
 /**
  * Showcase for PixiAppWrapper class.
  */
-export class SampleApp {
+export class Game {
     private app: Wrapper;
 
     private textStyle = new PIXI.TextStyle({

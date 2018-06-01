@@ -11,6 +11,7 @@ export class ActorBase implements Actor {
     protected _vy: number = 0;
 
     private _lastUpdate: number = new Date().getTime();
+    private _money: number = 1; // default
     private _multiplier: number = 0.001; // The timestamps used for movement will be in ms
     private _parent: Actor;
     /** Need to share one instance between the add/remove functions */
@@ -172,6 +173,14 @@ export class ActorBase implements Actor {
 
     get actorType() {
         return ActorType.Null;
+    }
+
+    get money() {
+        return this._money;
+    }
+
+    set money(value: number) {
+        this._money = value;
     }
 
     get height() {
