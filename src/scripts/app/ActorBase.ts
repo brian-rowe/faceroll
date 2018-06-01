@@ -72,6 +72,10 @@ export class ActorBase implements Actor {
         // Default = nothing happens
     }
 
+    public handleCollided(other: Actor) {
+        // Default = nothing happens
+    }
+
     public handleOutOfBounds() {
         // Default = destroy
         this.dispose();
@@ -150,6 +154,7 @@ export class ActorBase implements Actor {
         for (const actor of actors) {
             if (actor.detectCollision(this)) {
                 this.handleCollision(actor);
+                actor.handleCollided(this);
             }
         }
     }

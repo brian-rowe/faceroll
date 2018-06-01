@@ -13,6 +13,7 @@ export class Powerup extends ActorBase {
     }
 
     public handleCollision(other: Actor) {
+        // Player collecting powerup should remove it from playing field
         if (other.actorType === ActorType.Player) {
             this.dispose();
         }

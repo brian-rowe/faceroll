@@ -18,6 +18,18 @@ export class Projectile extends ActorBase {
         // nada
     }
 
+    public handleCollided(other: Actor) {
+        switch (other.actorType) {
+            case ActorType.Enemy: {
+                this.dispose();
+            }
+
+            default: {
+                return;
+            }
+        }
+    }
+
     get actorType() {
         return ActorType.Projectile;
     }
