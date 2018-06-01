@@ -28,11 +28,12 @@ export class ActorManager {
 
         if (index > -1) {
             this._actors[actor.actorType].splice(index, 1);
+            actor.dispose();
         }
     }
 
     public static removeAllEnemies() {
-        this.getActorsByType(ActorType.Enemy).forEach(enemy => enemy.dispose());
+        this.getActorsByType(ActorType.Enemy).forEach(enemy => this.removeActor(enemy));
     }
 
     private static _actors: { [actorType: number]: Actor[] } = {};
