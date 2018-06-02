@@ -94,6 +94,11 @@ export class ActorBase implements Actor {
         return angle;
     }
 
+    protected bounce() {
+        this.reverseXDirection();
+        this.reverseYDirection();
+    }
+
     protected reverseXDirection() {
         this._vx = -this._vx;
     }

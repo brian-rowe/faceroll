@@ -27,9 +27,7 @@ export class Enemy extends ActorBase {
 
     /** @override */
     public handleOutOfBounds() {
-        // bounce
-        this.reverseXDirection();
-        this.reverseYDirection();
+        this.bounce();
     }
 
     get actorType() {
