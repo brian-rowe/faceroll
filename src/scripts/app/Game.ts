@@ -13,6 +13,7 @@ import { ActorFactory } from 'app/ActorFactory';
 import { ActorManager } from 'app/ActorManager';
 import { ActorSpeed } from 'app/ActorSpeed';
 import { ActorType } from 'app/ActorType';
+import { ContextMenuDisabler } from 'app/ContextMenuDisabler';
 import { MathUtils } from 'app/MathUtils';
 import { Player } from 'app/Player';
 import { Point } from 'pixi.js';
@@ -36,6 +37,7 @@ export class Game {
     private _moneyText: PIXI.Text;
 
     constructor() {
+        new ContextMenuDisabler().disable();
 
         const canvas = Dom.getElementOrCreateNew<HTMLCanvasElement>('app-canvas', 'canvas', document.getElementById('app-root'));
 
