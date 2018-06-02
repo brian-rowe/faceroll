@@ -25,6 +25,11 @@ export class Enemy extends ActorBase {
             }
 
             default: {
+                // Award the killer some money
+                if (other.rootParent) {
+                    other.rootParent.money += 10e3;
+                }
+
                 this.dispose();
             }
         }

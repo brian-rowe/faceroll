@@ -21,6 +21,7 @@ export class Projectile extends ActorBase {
     public handleCollided(other: Actor) {
         switch (other.actorType) {
             case ActorType.Enemy: {
+                // Destroy the bullet
                 this.dispose();
             }
 
