@@ -13,6 +13,8 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
 
+    private _projectiles: number = 1;
+
     constructor(
         protected app: Wrapper,
         protected options: ActorOptions,
@@ -41,7 +43,7 @@ export class Player extends ActorBase {
     public handleCollided(other: Actor) {
         switch (other.actorType) {
             case ActorType.Powerup: {
-                this._velocityMultiplier *= 2;
+                this._projectiles += 1;
             }
 
             default: {
@@ -129,15 +131,20 @@ export class Player extends ActorBase {
     }
 
     private shoot() {
-        const bullet = this._actorFactory.createActor(ActorType.Projectile, {
-            parent: this,
-            rotation: this._sprite.rotation,
-            speed: ActorSpeed.Fast,
-            texture: PIXI.loader.resources.bubble.texture,
-            scale: new PIXI.Point(0.3, 0.3),
-        });
+        for (let i = 0; i < this._projectiles; i++) {
+            // If there is only 1 bullet, shoot straight. If multiple, fan them out.
+            const rotationOffset = this._projectiles === 1 ? 0 : (i / 10);
 
-        bullet.moveTo(this.x + this._sprite.width * 2, this.y);
+            const bullet = this._actorFactory.createActor(ActorType.Projectile, {
+                parent: this,
+                rotation: this._sprite.rotation += rotationOffset,
+                speed: ActorSpeed.Fast,
+                texture: PIXI.loader.resources.bubble.texture,
+                scale: new PIXI.Point(0.3, 0.3),
+            });
+
+            bullet.moveTo(this.x + this._sprite.width * 2, this.y);
+        }
     }
 
     private setX(value: number) {
