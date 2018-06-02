@@ -13,7 +13,13 @@ export class ActorBase implements Actor {
     private _lastUpdate: number = new Date().getTime();
     private _money: number = 1; // default
     private _multiplier: number = 0.001; // The timestamps used for movement will be in ms
+
+    /* The actor that caused this actor to spawn */
     private _parent: Actor;
+
+    /* If actors were spawned in a chain reaction, the original spawner */
+    private _rootParent: Actor;
+
     private _vx: number = 0;
     private _vy: number = 0;
     /** Need to share one instance between the add/remove functions */
@@ -32,6 +38,7 @@ export class ActorBase implements Actor {
         protected options: ActorOptions,
     ) {
         this.setParent();
+        this.setRootParent();
         this.movementTracker = () => this.trackMovement();
 
         this.draw();
@@ -170,6 +177,19 @@ export class ActorBase implements Actor {
         }
     }
 
+    /** Recurse up the tree until the top is reached */
+    private setRootParent() {
+        if (this.parent) {
+            let currentActor: Actor = this;
+
+            while (currentActor.parent) {
+                currentActor = currentActor.parent;
+            }
+
+            this._rootParent = currentActor;
+        }
+    }
+
     private setSpeed() {
         if (this.options.speed) {
             const rotation = this.options.rotation || 0;
@@ -211,6 +231,10 @@ export class ActorBase implements Actor {
 
     get parent() {
         return this._parent || null;
+    }
+
+    get rootParent() {
+        return this._rootParent || null;
     }
 
     get x() {

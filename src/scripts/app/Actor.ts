@@ -4,6 +4,7 @@ import { Disposable } from 'app/Disposable';
 export interface Actor extends Disposable {
     actorType: ActorType;
     parent?: Actor;
+    rootParent?: Actor;
     height: number;
     money: number;
     x: number;
