@@ -111,7 +111,7 @@ export class Game {
     }
 
     private onAssetsLoaded(): void {
-        const desiredEnemyCount = 40;
+        const desiredEnemyCount = 10;
 
         const player = this.createPlayer();
         this.createEnemies(desiredEnemyCount);
