@@ -8,11 +8,13 @@ import {
     PixiAppWrapperOptions as WrapperOpts,
 } from 'pixi-app-wrapper';
 
+import { Actor } from 'app/Actor';
 import { ActorFactory } from 'app/ActorFactory';
 import { ActorManager } from 'app/ActorManager';
 import { ActorSpeed } from 'app/ActorSpeed';
 import { ActorType } from 'app/ActorType';
 import { MathUtils } from 'app/MathUtils';
+import { Player } from 'app/Player';
 import { Point } from 'pixi.js';
 
 /**
@@ -31,6 +33,7 @@ export class Game {
 
     private _actorFactory: ActorFactory;
     private _isGameOver: boolean;
+    private _moneyText: PIXI.Text;
 
     constructor() {
 
@@ -94,10 +97,23 @@ export class Game {
         this.app.stage.addChild(gameOverText);
     }
 
+    private drawPlayerMoney(player: Actor): void {
+        // Destroy last time, if you can
+        if (this._moneyText) {
+            this._moneyText.destroy();
+        }
+
+        this._moneyText = new PIXI.Text(player.money.toString(), this.textStyle);
+        this._moneyText.x = this.app.initialWidth - 128;
+        this._moneyText.y = this.app.initialHeight - 24;
+
+        this.app.stage.addChild(this._moneyText);
+    }
+
     private onAssetsLoaded(): void {
         const desiredEnemyCount = 40;
 
-        this.createPlayer();
+        const player = this.createPlayer();
         this.createEnemies(desiredEnemyCount);
 
         this.app.ticker.add(deltaTime => {
@@ -110,6 +126,8 @@ export class Game {
             if (this._isGameOver) {
                 this.app.ticker.stop();
             } else {
+                this.drawPlayerMoney(player);
+
                 const enemyCount = ActorManager.getActorsByType(ActorType.Enemy).length;
 
                 if (enemyCount < desiredEnemyCount) {
@@ -132,6 +150,8 @@ export class Game {
         });
 
         player.moveTo(this.app.screen.width / 2, this.app.screen.height / 2);
+
+        return player;
     }
 
     private getPlayer(playerIndex: number) {
@@ -174,7 +194,7 @@ export class Game {
 
         const enemy = this._actorFactory.createActor(ActorType.Enemy, {
             rotation: Math.random(),
-            speed: ActorSpeed.Slow / 3,
+            speed: ActorSpeed.Slow,
             texture: PIXI.loader.resources.bunny.texture,
         });
 

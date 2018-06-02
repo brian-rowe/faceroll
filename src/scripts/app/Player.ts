@@ -33,7 +33,11 @@ export class Player extends ActorBase {
             }
 
             default: {
-                this.dispose();
+                if (this.money <= 0) {
+                    this.dispose();
+                } else {
+                    this.money -= 1e4;
+                }
             }
         }
     }
