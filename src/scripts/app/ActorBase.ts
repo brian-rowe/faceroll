@@ -106,6 +106,14 @@ export class ActorBase implements Actor {
         this.reverseYDirection();
     }
 
+    protected damage(amount: number ) {
+        this.money -= amount;
+
+        if (this.money <= 0) {
+            this.dispose();
+        }
+    }
+
     protected reverseXDirection() {
         this._vx = -this._vx;
     }

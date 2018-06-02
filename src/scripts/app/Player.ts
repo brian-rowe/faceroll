@@ -33,11 +33,7 @@ export class Player extends ActorBase {
             }
 
             default: {
-                if (this.money <= 0) {
-                    this.dispose();
-                } else {
-                    this.money -= 1e4;
-                }
+                this.damage(1e4);
             }
         }
     }
@@ -52,6 +48,11 @@ export class Player extends ActorBase {
                 return;
             }
         }
+    }
+
+    /** @override */
+    public handleOutOfBounds() {
+        return;
     }
 
     private bindControls() {
