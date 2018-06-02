@@ -14,6 +14,11 @@ export class Enemy extends ActorBase {
 
     public handleCollision(other: Actor) {
         switch (other.actorType) {
+            // Enemy running into enemy should do nothing, pass through:
+            case ActorType.Enemy: {
+                return;
+            }
+
             // Player running into enemy should always kill player, not enemy
             case ActorType.Player: {
                 return;
