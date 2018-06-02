@@ -61,6 +61,7 @@ export class Player extends ActorBase {
         this.bindRight();
         this.bindDown();
         this.bindShoot();
+        this.bindSkill();
     }
 
     private bindRotation() {
@@ -120,7 +121,7 @@ export class Player extends ActorBase {
 
     private bindSkill() {
         const secondaryClickHandler = new ClickHandler(MouseCode.Secondary, (event: MouseEvent) => {
-            return false;
+            // later
         }, () => {
             // nada
         });
