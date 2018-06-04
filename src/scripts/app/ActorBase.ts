@@ -35,7 +35,7 @@ export class ActorBase implements Actor {
 
     constructor(
         protected app: Wrapper,
-        protected options: ActorOptions,
+        protected options: ActorOptions<{}>,
     ) {
         this.setParent();
         this.setRootParent();

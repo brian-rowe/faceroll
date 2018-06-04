@@ -9,6 +9,7 @@ import { KeyCode } from 'app/KeyCode';
 import { KeyHandler } from 'app/KeyHandler';
 import { MathUtils } from 'app/MathUtils';
 import { MouseCode } from 'app/MouseCode';
+import { ProjectileAttribute } from 'app/ProjectileAttribute';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 
 export class Player extends ActorBase {
@@ -18,7 +19,7 @@ export class Player extends ActorBase {
 
     constructor(
         protected app: Wrapper,
-        protected options: ActorOptions,
+        protected options: ActorOptions<{}>,
     ) {
         super(app, options);
 
@@ -179,7 +180,11 @@ export class Player extends ActorBase {
 
             const rotationOffset = this.getBulletRotation(i, spreadMultiplier > minSpread ? spreadMultiplier : minSpread);
 
+            const bulletAttribute = new ProjectileAttribute();
+            bulletAttribute.PIERCE = 1;
+
             const bullet = this._actorFactory.createActor(ActorType.Projectile, {
+                attribute: bulletAttribute,
                 parent: this,
                 rotation: this._sprite.rotation + rotationOffset,
                 speed: ActorSpeed.Fast,

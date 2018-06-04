@@ -7,7 +7,7 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 export class Powerup extends ActorBase {
     constructor(
         protected app: Wrapper,
-        protected options: ActorOptions,
+        protected options: ActorOptions<{}>,
     ) {
         super(app, options);
     }

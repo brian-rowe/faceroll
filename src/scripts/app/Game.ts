@@ -147,6 +147,7 @@ export class Game {
 
     private createPlayer() {
         const player = this._actorFactory.createActor(ActorType.Player, {
+            attribute: {},
             speed: ActorSpeed.Stop,
             texture: PIXI.loader.resources.explorer.texture,
         });
@@ -195,6 +196,7 @@ export class Game {
         } while (this.isInsidePlayerSafeZone(x, y));
 
         const enemy = this._actorFactory.createActor(ActorType.Enemy, {
+            attribute: {},
             rotation: Math.random(),
             speed: ActorSpeed.Slow,
             texture: PIXI.loader.resources.bunny.texture,
@@ -214,6 +216,7 @@ export class Game {
         const y = this.getRandomY();
 
         const powerup = this._actorFactory.createActor(ActorType.Powerup, {
+            attribute: {},
             scale: new PIXI.Point(0.5, 0.5),
             speed: ActorSpeed.Stop,
             texture: PIXI.loader.resources.stop.texture,

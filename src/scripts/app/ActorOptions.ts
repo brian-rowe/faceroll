@@ -1,7 +1,8 @@
 import { Actor } from 'app/Actor';
 import { ActorSpeed } from 'app/ActorSpeed';
 
-export interface ActorOptions {
+export interface ActorOptions<Attribute> {
+    attribute: Attribute;
     parent?: Actor;
     rotation?: number;
     /* Pixels per second */

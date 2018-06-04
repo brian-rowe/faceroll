@@ -2,6 +2,7 @@ import { Actor } from 'app/Actor';
 import { ActorManager } from 'app/ActorManager';
 import { ActorOptions } from 'app/ActorOptions';
 import { ActorType } from 'app/ActorType';
+import { Attribute } from 'app/Attribute';
 import { Enemy } from 'app/Enemy';
 import { Player } from 'app/Player';
 import { Powerup } from 'app/Powerup';
@@ -14,7 +15,7 @@ export class ActorFactory {
     ) {
     }
 
-    public createActor(actorType: ActorType, options: ActorOptions): Actor {
+    public createActor<TAttribute>(actorType: ActorType, options: ActorOptions<Attribute>): Actor {
         switch (actorType) {
             case ActorType.Enemy:
                 return new Enemy(this.app, options);
