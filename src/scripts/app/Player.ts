@@ -13,7 +13,7 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
 
-    private _projectiles: number = 1;
+    private _projectiles: number = 3;
 
     constructor(
         protected app: Wrapper,
@@ -130,10 +130,16 @@ export class Player extends ActorBase {
         });
     }
 
+    private getBulletRotation(bulletIndex: number) {
+        const totalBullets: number = this._projectiles;
+
+        return totalBullets === 1 ? 0 : (bulletIndex / 10);
+    }
+
     private shoot() {
         for (let i = 0; i < this._projectiles; i++) {
             // If there is only 1 bullet, shoot straight. If multiple, fan them out.
-            const rotationOffset = this._projectiles === 1 ? 0 : (i / 10);
+            const rotationOffset = this.getBulletRotation(i);
 
             const bullet = this._actorFactory.createActor(ActorType.Projectile, {
                 parent: this,
