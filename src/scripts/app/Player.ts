@@ -7,14 +7,14 @@ import { ActorType } from 'app/ActorType';
 import { ClickHandler } from 'app/ClickHandler';
 import { KeyCode } from 'app/KeyCode';
 import { KeyHandler } from 'app/KeyHandler';
+import { MathUtils } from 'app/MathUtils';
 import { MouseCode } from 'app/MouseCode';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
-import { MathUtils } from 'app/MathUtils';
 
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
 
-    private _projectiles: number = 5;
+    private _projectiles: number = 4;
 
     constructor(
         protected app: Wrapper,
@@ -159,9 +159,21 @@ export class Player extends ActorBase {
             const relativeIndex = bulletIndex - middleIndex;
 
             return relativeIndex * spreadMultiplier;
-        }
+        } else {
+            /**
+             * When the number of bullets is even, the middle two bullets should fly around the tip of the mouse pointer,
+             * but not touch it.
+             * [0, 1, 2, 3, 4, 5]
+             * ->
+             * [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5]
+             */
+            const lastIndexInFirstHalf = (totalBullets / 2) - 1;
 
-        return bulletIndex / totalBullets;
+            const relativeIndex = bulletIndex - lastIndexInFirstHalf;
+            const offset = 0.5; // to make it not centered on the one before the middle
+
+            return (relativeIndex - offset) * spreadMultiplier;
+        }
     }
 
     private shoot(event: MouseEvent) {
