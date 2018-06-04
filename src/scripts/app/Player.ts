@@ -13,7 +13,7 @@ import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
 
-    private _projectiles: number = 3;
+    private _projectiles: number = 5;
 
     constructor(
         protected app: Wrapper,
@@ -115,8 +115,8 @@ export class Player extends ActorBase {
     }
 
     private bindShoot() {
-        const primaryClickHandler = new ClickHandler(MouseCode.Primary, () => {
-            this.shoot();
+        const primaryClickHandler = new ClickHandler(MouseCode.Primary, (event: MouseEvent) => {
+            this.shoot(event);
         }, () => {
             // nada
         });
@@ -133,17 +133,49 @@ export class Player extends ActorBase {
     private getBulletRotation(bulletIndex: number) {
         const totalBullets: number = this._projectiles;
 
-        return totalBullets === 1 ? 0 : (bulletIndex / 10);
+        // If there is only one bullet, the rotation is zero.
+        if (totalBullets === 1) {
+            return 0;
+        }
+
+        /**
+         * Bullets should 'fan out' based on the number of projectiles available to the player
+         * If there are an odd number of bullets, the middle bullet should always go through the
+         * tip of the mouse pointer
+         * This means that the bullets before the middle index will end up with a negative rotation value
+         */
+        const oddBullets = totalBullets % 2 === 1;
+
+        if (oddBullets) {
+            const middleIndex = Math.ceil(totalBullets / 2) - 1;
+
+            /**
+             * Rewrite the indexes to be relative to the middle index.
+             * For example, if the player has 5 projectiles,
+             * the input would be [0, 1, 2, 3, 4],
+             * and the output would be [-2, -1, 0, 1, 2]
+             */
+            const relativeIndex = bulletIndex - middleIndex;
+
+            /**
+             * Tighten the spread with a small multiplier for the angle
+             */
+            const spread = 0.25;
+
+            return relativeIndex * spread;
+        }
+
+        return bulletIndex / totalBullets;
     }
 
-    private shoot() {
+    private shoot(event: MouseEvent) {
         for (let i = 0; i < this._projectiles; i++) {
             // If there is only 1 bullet, shoot straight. If multiple, fan them out.
             const rotationOffset = this.getBulletRotation(i);
 
             const bullet = this._actorFactory.createActor(ActorType.Projectile, {
                 parent: this,
-                rotation: this._sprite.rotation += rotationOffset,
+                rotation: this._sprite.rotation + rotationOffset,
                 speed: ActorSpeed.Fast,
                 texture: PIXI.loader.resources.bubble.texture,
                 scale: new PIXI.Point(0.3, 0.3),
