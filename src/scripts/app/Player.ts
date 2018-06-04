@@ -16,6 +16,7 @@ export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
 
     private _projectiles: number = 4;
+    private _projectilePierce: number = 0;
 
     constructor(
         protected app: Wrapper,
@@ -45,7 +46,7 @@ export class Player extends ActorBase {
     public handleCollided(other: Actor) {
         switch (other.actorType) {
             case ActorType.Powerup: {
-                this._projectiles += 1;
+                this._projectilePierce += 1;
             }
 
             default: {
@@ -181,7 +182,7 @@ export class Player extends ActorBase {
             const rotationOffset = this.getBulletRotation(i, spreadMultiplier > minSpread ? spreadMultiplier : minSpread);
 
             const bulletAttribute = new ProjectileAttribute();
-            bulletAttribute.PIERCE = 1;
+            bulletAttribute.PIERCE = this._projectilePierce;
 
             const bullet = this._actorFactory.createActor(ActorType.Projectile, {
                 attribute: bulletAttribute,
