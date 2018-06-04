@@ -147,33 +147,24 @@ export class Player extends ActorBase {
          */
         const oddBullets = totalBullets % 2 === 1;
 
-        if (oddBullets) {
-            const middleIndex = Math.ceil(totalBullets / 2) - 1;
+        // 5 projectiles -> index 2 [0, 1, >2<, 3, 4]
+        // 4 projectiles -> index 1 [0, >1<, 2, 3]
+        const middleIndex = Math.ceil(totalBullets / 2) - 1;
 
-            /**
-             * Rewrite the indexes to be relative to the middle index.
-             * For example, if the player has 5 projectiles,
-             * the input would be [0, 1, 2, 3, 4],
-             * and the output would be [-2, -1, 0, 1, 2]
-             */
-            const relativeIndex = bulletIndex - middleIndex;
+        /**
+         * Rewrite the indexes to be relative to the middle index.
+         * For example, if the player has 5 projectiles,
+         * the input would be [0, 1, 2, 3, 4],
+         * and the output would be [-2, -1, 0, 1, 2]
+         * [0, 1, 2, 3, 4, 5]
+         * ->
+         * [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5]
+         */
+        const relativeIndex = bulletIndex - middleIndex;
 
-            return relativeIndex * spreadMultiplier;
-        } else {
-            /**
-             * When the number of bullets is even, the middle two bullets should fly around the tip of the mouse pointer,
-             * but not touch it.
-             * [0, 1, 2, 3, 4, 5]
-             * ->
-             * [-2.5, -1.5, -0.5, 0.5, 1.5, 2.5]
-             */
-            const lastIndexInFirstHalf = (totalBullets / 2) - 1;
+        const offset = oddBullets ? 0 : -0.5; // to make it not centered on the one before the middle
 
-            const relativeIndex = bulletIndex - lastIndexInFirstHalf;
-            const offset = 0.5; // to make it not centered on the one before the middle
-
-            return (relativeIndex - offset) * spreadMultiplier;
-        }
+        return (relativeIndex + offset) * spreadMultiplier;
     }
 
     private shoot(event: MouseEvent) {
