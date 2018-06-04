@@ -9,6 +9,7 @@ import { KeyCode } from 'app/KeyCode';
 import { KeyHandler } from 'app/KeyHandler';
 import { MouseCode } from 'app/MouseCode';
 import { PixiAppWrapper as Wrapper } from 'pixi-app-wrapper';
+import { MathUtils } from 'app/MathUtils';
 
 export class Player extends ActorBase {
     private _actorFactory: ActorFactory;
@@ -130,7 +131,7 @@ export class Player extends ActorBase {
         });
     }
 
-    private getBulletRotation(bulletIndex: number) {
+    private getBulletRotation(bulletIndex: number, spreadMultiplier: number) {
         const totalBullets: number = this._projectiles;
 
         // If there is only one bullet, the rotation is zero.
@@ -157,12 +158,7 @@ export class Player extends ActorBase {
              */
             const relativeIndex = bulletIndex - middleIndex;
 
-            /**
-             * Tighten the spread with a small multiplier for the angle
-             */
-            const spread = 0.25;
-
-            return relativeIndex * spread;
+            return relativeIndex * spreadMultiplier;
         }
 
         return bulletIndex / totalBullets;
@@ -170,8 +166,15 @@ export class Player extends ActorBase {
 
     private shoot(event: MouseEvent) {
         for (let i = 0; i < this._projectiles; i++) {
-            // If there is only 1 bullet, shoot straight. If multiple, fan them out.
-            const rotationOffset = this.getBulletRotation(i);
+            // Spread should be based on distance from character to mouse pointer. The closer to the character, the wider the spread.
+            const distanceFromSpriteToCursor = MathUtils.getDistanceBetweenPoints(this.getCenter(), new PIXI.Point(event.clientX, event.clientY));
+
+            const minSpread = 0.025;
+
+            // Spread should be large when pointer is close to player, and small when pointer is far away
+            const spreadMultiplier = (1 / distanceFromSpriteToCursor) * 2;
+
+            const rotationOffset = this.getBulletRotation(i, spreadMultiplier > minSpread ? spreadMultiplier : minSpread);
 
             const bullet = this._actorFactory.createActor(ActorType.Projectile, {
                 parent: this,
