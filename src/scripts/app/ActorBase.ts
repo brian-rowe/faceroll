@@ -212,8 +212,15 @@ export class ActorBase implements Actor {
 
     private updateLocation() {
         const now = new Date().getTime();
-        const delta = (now - this._lastUpdate) * this._multiplier;
+        const deltaTime = (now - this._lastUpdate);
+        const delta = deltaTime * this._multiplier;
         this._lastUpdate = now;
+
+        // the game is expected to run at 60fps at all times
+        // if it slows down to below 4fps (paused), don't make movement
+        if (delta > .25) {
+            return;
+        }
 
         const newX = this.x + (this.vx * delta);
         const newY = this.y + (this.vy * delta);
