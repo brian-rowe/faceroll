@@ -54,11 +54,10 @@ export class ActorBase implements Actor {
             return false;
         }
 
-        const interactionManager = this.app.renderer.plugins.interaction;
-
         /** Find the center point of the target sprite */
         const targetCenter = target.getCenter();
 
+        /* If the sprite covers the center of the other sprite, it hit it */
         return this._sprite.containsPoint(targetCenter);
     }
 
