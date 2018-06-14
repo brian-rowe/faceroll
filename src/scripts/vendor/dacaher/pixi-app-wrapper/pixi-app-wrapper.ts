@@ -1,4 +1,5 @@
 import EventEmitter = require("eventemitter3");
+import Q = require('q');
 import "fpsmeter";
 import {Dom, pixiAppWrapperEvent} from "pixi-app-wrapper";
 import "pixi-layers";
@@ -19,6 +20,7 @@ import {ScaleFullSize} from "./stage/scale/scale-full-size";
 import {ScaleKeepAspectRatio} from "./stage/scale/scale-keep-aspect-ratio";
 import {ScaleNone} from "./stage/scale/scale-none";
 import {ScaleStrategy} from "./stage/scale/scale-strategy";
+import { ActorManager } from "app/ActorManager";
 
 export interface PixiAppWrapperOptions extends PIXI.ApplicationOptions {
     width: number;
@@ -77,7 +79,7 @@ export class PixiAppWrapper extends EventEmitter {
 
     private fpsmeter: FPSMeter;
     private mediaInfoViewer: MediaInfoViewer;
-
+    private paused: boolean;
     private resizing: boolean;
 
     constructor(options?: PixiAppWrapperOptions) {
@@ -161,7 +163,15 @@ export class PixiAppWrapper extends EventEmitter {
 
     public togglePause(): void {
         if (this.ticker.started) {
-            this.ticker.stop();
+            ActorManager.removeAllEnemies();
+
+            /*
+            * If the user initiates a pause, the game should not be paused immediately
+            * Instead, wait for the next tick, to allow things to finish beforehand
+            */
+            this.ticker.addOnce(() => {
+                this.ticker.stop();
+            });
         } else {
             this.ticker.start();
         }

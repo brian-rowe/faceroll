@@ -25,7 +25,7 @@ export class Player extends ActorBase {
         super(app, options);
 
         this._actorFactory = new ActorFactory(app);
-        this.money = 1e6; // start with a small loan of a million dollars
+        this.money = 1e4;
 
         this.bindControls();
         this.bindRotation();
