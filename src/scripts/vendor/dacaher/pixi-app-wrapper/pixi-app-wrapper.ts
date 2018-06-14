@@ -159,6 +159,14 @@ export class PixiAppWrapper extends EventEmitter {
         };
     }
 
+    public togglePause(): void {
+        if (this.ticker.started) {
+            this.ticker.stop();
+        } else {
+            this.ticker.start();
+        }
+    }
+
     private configure(options: PixiAppWrapperOptions): void {
         this.width = options.width;
         this.height = options.height;

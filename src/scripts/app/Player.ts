@@ -61,6 +61,7 @@ export class Player extends ActorBase {
     }
 
     private bindControls() {
+        this.bindPause();
         this.bindSprint();
         this.bindUp();
         this.bindLeft();
@@ -68,6 +69,14 @@ export class Player extends ActorBase {
         this.bindDown();
         this.bindShoot();
         this.bindSkill();
+    }
+
+    private bindPause() {
+       const pause = new KeyHandler(KeyCode.ESCAPE, () => {
+           this.app.togglePause();
+        }, () => {
+           // nada
+       });
     }
 
     private bindRotation() {
