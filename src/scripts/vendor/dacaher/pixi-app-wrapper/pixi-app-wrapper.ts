@@ -162,6 +162,8 @@ export class PixiAppWrapper extends EventEmitter {
     }
 
     public togglePause(): void {
+
+        
         if (this.ticker.started) {
             ActorManager.removeAllEnemies();
 
